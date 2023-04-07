@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-const Main = () => {
+const Homework = () => {
     return (
         <Layout>
             
@@ -7,4 +7,4 @@ const Main = () => {
         
     );
   };
-  export default Main;
+  export default Homework;

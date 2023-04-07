@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-const Main = () => {
+const Notice = () => {
     return (
         <Layout>
             
@@ -7,4 +7,4 @@ const Main = () => {
         
     );
   };
-  export default Main;
+  export default Notice;
