@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Profile from "../assets/profile.png"
+import Mypage from "../pages/Mypage";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -20,13 +21,12 @@ const Header = styled.div`
   z-index: 5;
 `;
 const Column = styled.div`
-  width: 20%;
+  width: 30%;
   height: 100%;
   display: flex;
   align-items:center;
-  margin-left:20%
-  padding-right: 8%;
-
+  margin-left:30%
+  padding-right: 30%;
 `;
 
 // const ColumnLeft = styled(Column)`
@@ -40,9 +40,11 @@ const Column = styled.div`
 //   margin-left : 25%;
 // `;
 const Btn = styled.button`
-  margin-left: 5%;
+  margin-left: 1%;
+  padding :5%;
   border: none;
   background-color: white;
+  font-size:2.3vh;
   &:hover {
     cursor: pointer;
     font-weight: 900;
@@ -50,21 +52,27 @@ const Btn = styled.button`
 `;
 
 const Title = styled.div`
-width:5%;
+width:35%;
 height: 100%;
-margin-left:10%;
-margin-right:0;
+margin-left:5%;
 display: flex;
 align-items: center;
-justify-content: center;
+
 `;
+
 const Img = styled.div`
+width:25%;
 align-items: center;
-justify-content: center;
+justify-content: right;
 display: flex;
 margin-right:2%;
 `
+const TitleContainer=styled.div`
+width:100%;
+height:100%;
+display: flex;
 
+`
 const Layout = () => {
     // const [username, setUsername] = useState("");
     // useEffect(() => {
@@ -89,17 +97,20 @@ const Layout = () => {
     return (
       <Container>
         <Header>
-        <Title>수업명</Title>
+          <TitleContainer>
+        <Title>오픈소스기반 고급 설계</Title>
+       
           <Column>
             <Btn onClick={goHomework}>과제</Btn>
             <Btn onClick={goNotice}>공지사항</Btn>
             <Btn onClick={goUser}>사용자</Btn>
           </Column>
           <Img>
-          <Link to ="/pages/Myapge">
-              <img src = {Profile} width='35vh' height='35vh'/>   
+          <Link to ="/mypage">
+              <img src = {Profile} width='35vh' height='30vh' />   
           </Link>
           </Img>
+          </TitleContainer>
         </Header>
       </Container>
     );
