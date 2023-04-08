@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Profile from "../assets/profile.png"
-import Mypage from "../pages/Mypage";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
