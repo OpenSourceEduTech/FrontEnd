@@ -1,9 +1,12 @@
 import Layout from "../components/Layout";
 const Notice = () => {
     return (
-        <Layout>
+        <>
+        
+        <Layout/>
+        </>
             
-        </Layout>
+       
         
     );
   };

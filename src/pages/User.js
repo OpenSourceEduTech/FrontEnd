@@ -1,9 +1,11 @@
 import Layout from "../components/Layout";
 const User = () => {
     return (
-        <Layout>
-            
-        </Layout>
+
+        <>
+        <Layout/>
+        </>
+        
         
     );
   };

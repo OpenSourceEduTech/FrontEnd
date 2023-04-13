@@ -1,9 +1,10 @@
 import Layout from "../components/Layout";
 const Mypage = () => {
     return (
-        <Layout>
+        <>
+        <Layout/>
+        </>
             
-        </Layout>
         
     );
   };

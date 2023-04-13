@@ -97,7 +97,7 @@ const Layout = () => {
       <Container>
         <Header>
           <TitleContainer>
-        <Title>오픈소스기반 고급 설계</Title>
+        <Title>오픈소스 고급 설계</Title>
        
           <Column>
             <Btn onClick={goHomework}>과제</Btn>
