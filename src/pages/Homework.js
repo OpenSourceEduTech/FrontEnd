@@ -71,12 +71,30 @@ const TaskSubmitted = styled.button`
   margin-left: 10%;
   margin-top: 5%;
 `;
+const Title = styled.div`
+  align-text: center;
+  display: flex;
+  margin-bottom: 2%;
+  margin-left: 20%;
+  justify-content: left;
+  height: 3%;
+  width: 100%;
+  font-size: 30px;
+`;
+const Pro = styled.div`
+  align-text: center;
+  display: flex;
+  margin-bottom: 5%;
+  margin-left: 20%;
+  justify-content: left;
+  height: 10%;
+  width: 100%;
+  font-size: 15px;
+`;
 const Con1 = styled.div`
-  margin-top: 10%;
-  hegith: 20%;
+  hegith: 40%;
   width: 80%;
   border: 0px 0px 3px 0px;
-
   box-shadow: 1px 1px 1px 1px #000000;
 `;
 const Con2 = styled.div`
@@ -104,6 +122,8 @@ const Homework = () => {
       <Layout />
       <Body>
         <LeftCon>
+          <Title>과제 1</Title>
+          <Pro>김익수, 2023.4.17</Pro>
           <Con1></Con1>
           <Con2></Con2>
           <Con3></Con3>
