@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import styled from "styled-components";
+
 const Body = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -35,6 +36,14 @@ height:30%;
 border-top: 1.5px solid #0000FF;
 flex-direction: column;
 display: flex;
+overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0.5vw;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #ccc;
+  }
 `
 const InforCon = styled.div`
 width:100%;
@@ -81,6 +90,31 @@ const infor = [
         name: "보노보노4",
       },
     {
+        role: "student",
+        images: "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+        name: "보노보노5",
+      },
+      {
+        role: "student",
+        images: "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+        name: "보노보노5",
+      },
+      {
+        role: "student",
+        images: "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+        name: "보노보노5",
+      },
+      {
+        role: "student",
+        images: "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+        name: "보노보노5",
+      },
+      {
+        role: "student",
+        images: "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+        name: "보노보노5",
+      },
+      {
         role: "student",
         images: "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
         name: "보노보노5",
