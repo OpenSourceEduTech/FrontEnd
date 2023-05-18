@@ -1,8 +1,11 @@
-import Layout from "../components/Layout";
 import styled from "styled-components";
-import { getPostByNo, homelist } from "../components/Data";
+import Layout from "../components/Layout";
+import { homelist } from "../components/Data";
+import Homework from "../pages/Homework";
 import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+//import Loading from "./Loading";
 const Body = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -114,45 +117,43 @@ const Con3 = styled.div`
 
   box-shadow: 1px 1px 1px 1px #000000;
 `;
-const Homework = () => {
-  const [data, setData] = useState([]);
-  console.log(data);
-  const { id } = useParams();
-  useEffect(() => {
-    setData(homelist[id - 1]);
-  }, []);
-  // useEffect(() => {
-  //   setData(homelist);
-  // }, []);
 
-  const fileInput = React.useRef(null);
-  const handleButtonClick = (e) => {
-    fileInput.current.click();
-  };
+const Homeworks = (props) => {
+  const [homeworks, setHomework] = useState([]);
+
+  useEffect(() => {
+    setHomework(homelist);
+  }, []);
+
+  //const { id } = useParams();
+
   return (
     <>
       <Layout />
       <Body>
         <LeftCon>
-          <Title>{data.title}</Title>
-          <Pro>김익수, 2023.4.17</Pro>
-          <Con1></Con1>
-          <Con2></Con2>
-          <Con3></Con3>
+          {homeworks.map((item) => (
+            <Link to={`/homework/${item.id}`} key={item.id}>
+              <h2>{item.title}</h2>
+            </Link>
+          ))}
         </LeftCon>
-        <RightCon>
-          <Mytask>
-            <Tasktitle>내 과제</Tasktitle>
-            <TaskSubmit onClick={handleButtonClick}>
-              제출하기
-              <input type="file" ref={fileInput} style={{ display: "none" }} />
-            </TaskSubmit>
-            <TaskSubmitted>완료로 표시</TaskSubmitted>
-          </Mytask>
-        </RightCon>
       </Body>
     </>
+    // <Container>
+    //   <FilmCase src={filmCase} />
+    //   <Films>
+    //     {homeworks.map((homework) => (
+    //       <Film key={homework.id}>
+    //         <FilmFrame src={filmFrame} />
+    //         <Thumbnail src={film.image} />
+    //         <GoRead id={film.diary_id} />
+    //       </Film>
+    //     ))}
+    //     <FilmEdge src={filmEdge} />
+    //   </Films>
+    // </Container>
   );
 };
 
-export default Homework;
+export default Homeworks;

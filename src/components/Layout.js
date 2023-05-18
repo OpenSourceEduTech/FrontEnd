@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Profile from "../assets/profile.png"
+import Profile from "../assets/profile.png";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 
 const Header = styled.div`
@@ -40,10 +40,10 @@ const Column = styled.div`
 // `;
 const Btn = styled.button`
   margin-left: 1%;
-  padding :5%;
+  padding: 5%;
   border: none;
   background-color: white;
-  font-size:2.3vh;
+  font-size: 2.3vh;
   &:hover {
     cursor: pointer;
     font-weight: 900;
@@ -51,68 +51,65 @@ const Btn = styled.button`
 `;
 
 const Title = styled.div`
-width:35%;
-height: 100%;
-margin-left:5%;
-display: flex;
-align-items: center;
-
+  width: 35%;
+  height: 100%;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
 `;
 
 const Img = styled.div`
-width:25%;
-align-items: center;
-justify-content: right;
-display: flex;
-margin-right:2%;
-`
-const TitleContainer=styled.div`
-width:100%;
-height:100%;
-display: flex;
-
-`
+  width: 25%;
+  align-items: center;
+  justify-content: right;
+  display: flex;
+  margin-right: 2%;
+`;
+const TitleContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+`;
 const Layout = () => {
-    // const [username, setUsername] = useState("");
-    // useEffect(() => {
-    //   (async () => {
-    //     const response = await fetch("/accounts/info");
-    //     const json = await response.json();
-    //     setUsername(json.name);
-    //   })();
-    // }, []);
-    const navigate = useNavigate();
-    const goHomework = () => {
-      navigate(`/homework`);
-    };
-    const goNotice = () => {
-      navigate(`/notice`);
-    };
-    const goUser = () => {
-      navigate(`/user`);
-    };
+  // const [username, setUsername] = useState("");
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await fetch("/accounts/info");
+  //     const json = await response.json();
+  //     setUsername(json.name);
+  //   })();
+  // }, []);
+  const navigate = useNavigate();
+  const goHomework = () => {
+    navigate(`/homeworks`);
+  };
+  const goNotice = () => {
+    navigate(`/notice`);
+  };
+  const goUser = () => {
+    navigate(`/user`);
+  };
 
+  return (
+    <Container>
+      <Header>
+        <TitleContainer>
+          <Title>오픈소스 고급 설계</Title>
 
-    return (
-      <Container>
-        <Header>
-          <TitleContainer>
-        <Title>오픈소스 고급 설계</Title>
-       
           <Column>
             <Btn onClick={goHomework}>과제</Btn>
             <Btn onClick={goNotice}>공지사항</Btn>
             <Btn onClick={goUser}>사용자</Btn>
           </Column>
           <Img>
-          <Link to ="/mypage">
-              <img src = {Profile} width='35vh' height='30vh' />   
-          </Link>
+            <Link to="/mypage">
+              <img src={Profile} width="35vh" height="30vh" />
+            </Link>
           </Img>
-          </TitleContainer>
-        </Header>
-      </Container>
-    );
-  };
-  
-  export default Layout;
+        </TitleContainer>
+      </Header>
+    </Container>
+  );
+};
+
+export default Layout;
