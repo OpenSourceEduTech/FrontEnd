@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import styled from "styled-components";
-import { getPostByNo, homelist } from "../components/Data";
+import { homelist } from "../components/Data";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 const Body = styled.div`
