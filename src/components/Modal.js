@@ -1,0 +1,91 @@
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import Profile from "../assets/profile.png";
+import styled from "styled-components";
+
+// 모달 스타일 설정
+const modalStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    // zIndex: 9999,
+  },
+  content: {
+    width: '350px',
+    height: '270px',
+    left: '1030px' ,
+    top: '-250px',
+    margin: 'auto',
+    border: '0.1px solid #ccc',
+    padding: '20px',
+    borderRadius: '30px',
+    backgroundColor: '#F0F0F0',
+    zindex: 0
+  },
+};
+
+// 프로필 모달 컴포넌트
+const ProfileModal = () => {
+
+  const Name = styled.div`
+  width: 350px;
+  height: 30px;
+  borderRadius: 4px;
+  background-color: #DCDCDC;
+`;
+const Email = styled.div`
+  width: 350px;
+  height: 30px;
+  borderRadius: 4px;
+  background-color: #DCDCDC;
+`;
+
+const Info = styled.div`
+  width: 350px;
+  height: 30px;
+  borderRadius: 4px;
+  background-color: #DCDCDC;
+`;
+
+
+
+  const user = {id : 1, name : 'SeongWon', email : 'djfqks22@naver.com'};
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 모달 열기
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  // 모달 닫기
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <div>
+      {/* 프로필을 보여줄 버튼 또는 링크 */}
+      <img onClick={openModal} src={Profile} width="35vh" height="30vh" />
+
+      {/* 프로필 모달 */}
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        style={modalStyles}
+        contentLabel="Profile Modal"
+      >
+        {/* 프로필 내용 */}
+        <h2>프로필</h2>
+        <img src={Profile} width="35vh" height="30vh" />
+        <Name> 이름: {user.name}</Name>
+        <Email>이메일: {user.email}</Email>
+        <Info>
+          <button>개인정보수정</button>
+          <button>로그아웃</button>
+        </Info>
+      </Modal>
+    </div>
+  );
+};
+
+export default ProfileModal;
