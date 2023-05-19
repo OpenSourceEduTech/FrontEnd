@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Profile from "../assets/profile.png";
+import ProfileModal from "./Modal";
+
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -71,14 +73,7 @@ const TitleContainer = styled.div`
   display: flex;
 `;
 const Layout = () => {
-  // const [username, setUsername] = useState("");
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await fetch("/accounts/info");
-  //     const json = await response.json();
-  //     setUsername(json.name);
-  //   })();
-  // }, []);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const goHomework = () => {
     navigate(`/homeworks`);
@@ -89,6 +84,7 @@ const Layout = () => {
   const goUser = () => {
     navigate(`/user`);
   };
+ 
 
   return (
     <Container>
@@ -101,10 +97,8 @@ const Layout = () => {
             <Btn onClick={goNotice}>공지사항</Btn>
             <Btn onClick={goUser}>사용자</Btn>
           </Column>
-          <Img>
-            <Link to="/mypage">
-              <img src={Profile} width="35vh" height="30vh" />
-            </Link>
+          <Img>         
+              <ProfileModal/>
           </Img>
         </TitleContainer>
       </Header>
