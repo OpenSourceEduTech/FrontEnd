@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { homelist } from "../components/Data";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
+
 const Body = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -106,14 +108,15 @@ const Con2 = styled.div`
   border: 0px 0px 3px 0px;
   box-shadow: 1px 1px 1px 1px #000000;
 `;
+
 const Con3 = styled.div`
   hegith: 20%;
   width: 80%;
-  margin: 10%;
+  margin: 5%;
   border: 0px 0px 3px 0px;
-
-  box-shadow: 1px 1px 1px 1px #000000;
 `;
+
+const Btn = styled.button``;
 const Homework = () => {
   const [data, setData] = useState([]);
   console.log(data);
@@ -129,6 +132,10 @@ const Homework = () => {
   const handleButtonClick = (e) => {
     fileInput.current.click();
   };
+  const navigate = useNavigate();
+  const goQuestion = () => {
+    navigate(`/question`);
+  };
   return (
     <>
       <Layout />
@@ -136,10 +143,15 @@ const Homework = () => {
         <LeftCon>
           <Title>{data.title}</Title>
           <Pro>김익수, 2023.4.17</Pro>
-          <Con1></Con1>
+          <Con1>
+            <img src={data.task} width="35vh" height="30vh" />
+          </Con1>
           <Con2></Con2>
-          <Con3></Con3>
+          <Con3>
+            <Btn onClick={goQuestion}>질문하러 가기</Btn>
+          </Con3>
         </LeftCon>
+
         <RightCon>
           <Mytask>
             <Tasktitle>내 과제</Tasktitle>

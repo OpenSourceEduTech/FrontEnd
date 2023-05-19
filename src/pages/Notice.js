@@ -37,9 +37,9 @@ const NoticeContent = styled.p`
 const Notice = () => {
   const [selectedNotice, setSelectedNotice] = useState(null);
   const noticeData = [
-    { id: 1, title: '공지1', content: '첫 번째 공지사항입니다.' },
-    { id: 2, title: '공지2', content: '두 번째 공지사항입니다.' },
-    { id: 3, title: '공지3', content: '세 번째 공지사항입니다.' }
+    { id: 1, title: "공지1", content: "첫 번째 공지사항입니다." },
+    { id: 2, title: "공지2", content: "두 번째 공지사항입니다." },
+    { id: 3, title: "공지3", content: "세 번째 공지사항입니다." },
   ];
 
   const handleNoticeClick = (noticeId) => {
@@ -54,7 +54,10 @@ const Notice = () => {
         {noticeData.length > 0 ? (
           <NoticeList>
             {noticeData.map((item) => (
-              <NoticeItem key={item.id} onClick={() => handleNoticeClick(item.id)}>
+              <NoticeItem
+                key={item.id}
+                onClick={() => handleNoticeClick(item.id)}
+              >
                 <NoticeTitle>{item.title}</NoticeTitle>
                 {selectedNotice && selectedNotice.id == item.id && (
                   <NoticeContent>{selectedNotice.content}</NoticeContent>
