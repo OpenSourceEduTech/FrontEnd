@@ -14,28 +14,46 @@ const NoticeContainer = styled.div`
   left: 0;
   right: 0;
 `;
+const Con = styled.div`
+  flex-direction: column;
+  display: flex;
+  position: flex;
+  width: 80%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+`;
 
-const NoticeList = styled.ul`
+const NoticeList = styled.div`
   list-style-type: none;
   padding: 0;
   margin: 0;
 `;
 
-const NoticeItem = styled.li`
-  margin-bottom: 20px;
+const NoticeItem = styled.div`
+  justify-content: center;
+  width: 20vw;
+  height: 15vh;
   cursor: pointer;
 `;
 
 const NoticeTitle = styled.h3`
+  width: 20vw;
+  height: 3vh;
+  justify-content: center;
   color: #333;
 `;
 
-const NoticeContent = styled.p`
+const NoticeContent = styled.div`
+  justify-content: center;
+  width: 20vw;
+  height: 3vh;
   color: #777;
 `;
 
 const Notice = () => {
-  const [selectedNotice, setSelectedNotice] = useState(null);
+  const [selectedNotice, setSelectedNotice] = useState();
   const noticeData = [
     { id: 1, title: "공지1", content: "첫 번째 공지사항입니다." },
     { id: 2, title: "공지2", content: "두 번째 공지사항입니다." },
@@ -52,7 +70,7 @@ const Notice = () => {
       <Layout />
       <NoticeContainer>
         {noticeData.length > 0 ? (
-          <NoticeList>
+          <Con>
             {noticeData.map((item) => (
               <NoticeItem
                 key={item.id}
@@ -64,7 +82,7 @@ const Notice = () => {
                 )}
               </NoticeItem>
             ))}
-          </NoticeList>
+          </Con>
         ) : (
           <p>공지사항이 없습니다.</p>
         )}
