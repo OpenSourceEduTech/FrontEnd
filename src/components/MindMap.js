@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Stage, Layer, Circle, Line, Text } from "react-konva";
-import Modal from './Modal'; // 당신의 모달 컴포넌트를 임포트합니다
+import { Stage, Layer, Circle, Text } from "react-konva";
+import Modal from './Modal';
 
 const MindMap = () => {
   const [topic, setTopic] = useState("주제");
@@ -8,7 +8,12 @@ const MindMap = () => {
   const [newQuestion, setNewQuestion] = useState({ title: '', content: '' });
   const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState({ title: '', content: '' });
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 상태를 관리하는 상태 변수를 추가합니다
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const nodeRadius = 50;
+  const nodeColor = "rgba(255, 0, 0, 0.7)";
+  const topicNodeColor = "skyblue";
+  const distanceFactor = 1.2;  // Node 간 거리를 20% 벌리기 위한 요인
 
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
@@ -27,7 +32,7 @@ const MindMap = () => {
   const selectNode = (index) => {
     setSelectedNodeIndex(index);
     setSelectedQuestion(questions[index]);
-    setIsModalOpen(true); // 노드를 선택하면 모달을 열어줍니다
+    setIsModalOpen(true);
   };
 
   const updateNode = (e) => {
@@ -47,35 +52,41 @@ const MindMap = () => {
     setSelectedQuestion({ title: '', content: '' });
   };
 
+  const calculateCoordinates = (question, i, arr) => {
+    const levelQuestions = arr.filter((q) => q.level === question.level);
+    const levelIndex = levelQuestions.findIndex((q) => q.title === question.title);
+    const angle = (levelIndex / levelQuestions.length) * Math.PI * 2;
+    const baseRadius = Math.min(centerX, centerY) / 3 * distanceFactor;
+    const radius = baseRadius * question.level;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+
+    return { x, y };
+  };
+
   const renderNodes = () => {
-    const baseRadius = Math.min(centerX, centerY) / 3;
     return questions.map((question, i, arr) => {
-      const levelQuestions = arr.filter((q) => q.level === question.level);
-      const levelIndex = levelQuestions.findIndex((q) => q.title === question.title);
-      const angle = (levelIndex / levelQuestions.length) * Math.PI * 2;
-      const radius = baseRadius * question.level;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
+      const { x, y } = calculateCoordinates(question, i, arr);
 
       return (
         <React.Fragment key={i}>
           <Circle
             x={x}
             y={y}
-            radius={30}
-            fill="red"
+            radius={nodeRadius}
+            fill={nodeColor}
             draggable
             onClick={() => selectNode(i)}
           />
           <Text
             text={question.title}
-            x={x}
-            y={y}
+            x={x - nodeRadius / 2}
+            y={y - nodeRadius / 2}
             align="center"
             verticalAlign="middle"
-            width={60}
+            width={nodeRadius}
+            fontSize={16}  // 글씨 크기를 10% 늘림
           />
-          <Line points={[centerX, centerY, x, y]} stroke="black" />
         </React.Fragment>
       );
     });
@@ -133,19 +144,19 @@ const MindMap = () => {
       )}
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Circle x={centerX} y={centerY} radius={40} fill="blue" />
+          <Circle x={centerX} y={centerY} radius={nodeRadius} fill={topicNodeColor} />
           <Text
             text={topic}
-            x={centerX}
-            y={centerY}
+            x={centerX - nodeRadius / 2}
+            y={centerY - nodeRadius / 2}
             align="center"
             verticalAlign="middle"
-            width={80}
+            width={nodeRadius}
+            fontSize={18}  // 글씨 크기를 10% 늘림
           />
           {renderNodes()}
         </Layer>
       </Stage>
-      {/* 모달을 추가합니다. */}
       {isModalOpen && (
         <Modal>
           <h2>{selectedQuestion.title}</h2>
@@ -158,3 +169,5 @@ const MindMap = () => {
 };
 
 export default MindMap;
+
+
