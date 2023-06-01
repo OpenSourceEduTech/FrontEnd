@@ -89,7 +89,7 @@ const NoticePost = () => {
         <Label htmlFor="file">첨부 파일</Label>
         <Input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
       </FormGroup>
-      <SubmitButton type="submit">제출</SubmitButton>
+      <SubmitButton type="submit">등록</SubmitButton>
     </FormContainer>
     </NoticeContainer>
    </>

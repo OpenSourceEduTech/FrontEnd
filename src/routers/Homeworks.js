@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import { homelist } from "../components/Data";
 import Homework from "../pages/Homework";
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useParams } from "react-router";
 
 
@@ -140,16 +140,33 @@ const ButtonContainer = styled.div`
   margin-left: 200px; /* 오른쪽 여백 추가 */
 `;
 
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+   background-color: #0056b3;
+  }
+`;
 
 const Homeworks = (props) => {
   const [homeworks, setHomework] = useState([]);
   
+  const user = {id : 1, role : "Student"};
 
   useEffect(() => {
     setHomework(homelist);
   }, []);
 
   //const { id } = useParams();
+
+  const handleClick = () => {
+    window.location.href = '/homework/post';
+  };
 
   return (
     <>
@@ -163,7 +180,7 @@ const Homeworks = (props) => {
           ))}
         </LeftCon>
         <ButtonContainer>
-          <Link to="/homework/post">과제 등록</Link>
+          <StyledButton onClick={handleClick}>과제 등록</StyledButton>
         </ButtonContainer>
       </NoticeContainer>
       

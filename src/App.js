@@ -10,6 +10,7 @@ import MindMap from "./components/MindMap";
 import HomeworkPost from "./pages/HomeworkPost";
 import NoticePost from "./pages/NoticePost";
 
+
 const App = () => {
   return (
     <Router>
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/homework/post" element={<HomeworkPost />} />
         <Route path="/notice/post" element={<NoticePost />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </Router>
   );

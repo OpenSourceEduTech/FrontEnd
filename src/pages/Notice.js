@@ -60,6 +60,19 @@ const ButtonContainer = styled.div`
   margin-left: 200px; /* 오른쪽 여백 추가 */
 `;
 
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+   background-color: #0056b3;
+  }
+`;
+
 const Notice = () => {
   const [selectedNotice, setSelectedNotice] = useState();
   const noticeData = [
@@ -71,6 +84,10 @@ const Notice = () => {
   const handleNoticeClick = (noticeId) => {
     const selected = noticeData.find((item) => item.id == noticeId);
     setSelectedNotice(selected);
+  };
+
+  const handleClick = () => {
+    window.location.href = '/notice/post';
   };
 
   return (
@@ -95,7 +112,7 @@ const Notice = () => {
           <p>공지사항이 없습니다.</p>
         )}
         <ButtonContainer>
-          <Link to="/notice/post">공지사항 등록</Link>
+          <StyledButton onClick={handleClick}>공지사항 등록</StyledButton>
         </ButtonContainer>
       </NoticeContainer>
     </>
