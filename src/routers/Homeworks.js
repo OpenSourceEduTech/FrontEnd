@@ -5,6 +5,21 @@ import Homework from "../pages/Homework";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+
+
+const NoticeContainer = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  right: 0;
+`;
+
 //import Loading from "./Loading";
 const Body = styled.div`
   display: flex;
@@ -118,8 +133,17 @@ const Con3 = styled.div`
   box-shadow: 1px 1px 1px 1px #000000;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 100px;
+  margin-left: 200px; /* 오른쪽 여백 추가 */
+`;
+
+
 const Homeworks = (props) => {
   const [homeworks, setHomework] = useState([]);
+  
 
   useEffect(() => {
     setHomework(homelist);
@@ -130,7 +154,7 @@ const Homeworks = (props) => {
   return (
     <>
       <Layout />
-      <Body>
+      <NoticeContainer>
         <LeftCon>
           {homeworks.map((item) => (
             <Link to={`/homework/${item.id}`} key={item.id}>
@@ -138,7 +162,13 @@ const Homeworks = (props) => {
             </Link>
           ))}
         </LeftCon>
-      </Body>
+        <ButtonContainer>
+          <Link to="/homework/post">과제 등록</Link>
+        </ButtonContainer>
+      </NoticeContainer>
+      
+
+
     </>
     // <Container>
     //   <FilmCase src={filmCase} />
