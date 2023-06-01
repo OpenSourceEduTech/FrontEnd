@@ -7,6 +7,8 @@ import Notice from "./pages/Notice";
 import User from "./pages/User";
 import Homework from "./pages/Homework";
 import MindMap from "./components/MindMap";
+import HomeworkPost from "./pages/HomeworkPost";
+import NoticePost from "./pages/NoticePost";
 
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
         <Route path="/user" element={<User />} />
         <Route path="/question" element={<MindMap />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/homework/post" element={<HomeworkPost />} />
+        <Route path="/notice/post" element={<NoticePost />} />
       </Routes>
     </Router>
   );

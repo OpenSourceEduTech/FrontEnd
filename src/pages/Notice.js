@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 
 const NoticeContainer = styled.div`
   background-color: #fff;
@@ -52,6 +53,13 @@ const NoticeContent = styled.div`
   color: #777;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 100px;
+  margin-left: 200px; /* 오른쪽 여백 추가 */
+`;
+
 const Notice = () => {
   const [selectedNotice, setSelectedNotice] = useState();
   const noticeData = [
@@ -86,6 +94,9 @@ const Notice = () => {
         ) : (
           <p>공지사항이 없습니다.</p>
         )}
+        <ButtonContainer>
+          <Link to="/notice/post">공지사항 등록</Link>
+        </ButtonContainer>
       </NoticeContainer>
     </>
   );
