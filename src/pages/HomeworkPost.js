@@ -2,7 +2,6 @@ import Layout from "../components/Layout";
 import React, { useState } from 'react';
 import styled from "styled-components";
 
-
 const NoticeContainer = styled.div`
   background-color: #fff;
   padding: 20px;
@@ -60,7 +59,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const Mypage = () => {
+const HomeworkPost = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [number, setNumber] = useState('');
@@ -77,19 +76,22 @@ const Mypage = () => {
     <>
     <Layout/>
     <NoticeContainer>
-    <h1>개인정보 수정</h1>
     <FormContainer onSubmit={handleSubmit}>
       <FormGroup>
-        <Label htmlFor="title">아이디 : </Label>
+        <Label htmlFor="title">과제 제목</Label>
         <Input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="number">비밀번호 확인 : </Label>
+        <Label htmlFor="description">과제 내용</Label>
+        <TextArea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="number">과제 번호</Label>
         <Input type="text" id="number" value={number} onChange={(e) => setNumber(e.target.value)} />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="number">비밀번호 확인 : </Label>
-        <Input type="text" id="number" value={number} onChange={(e) => setNumber(e.target.value)} />
+        <Label htmlFor="file">첨부 파일</Label>
+        <Input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
       </FormGroup>
       <SubmitButton type="submit">등록</SubmitButton>
     </FormContainer>
@@ -98,4 +100,4 @@ const Mypage = () => {
   );
 }
 
-export default Mypage;
+export default HomeworkPost;

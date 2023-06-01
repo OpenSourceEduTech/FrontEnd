@@ -3,8 +3,23 @@ import Layout from "../components/Layout";
 import { homelist } from "../components/Data";
 import Homework from "../pages/Homework";
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useParams } from "react-router";
+
+
+const NoticeContainer = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  right: 0;
+`;
+
 //import Loading from "./Loading";
 const Body = styled.div`
   display: flex;
@@ -118,8 +133,30 @@ const Con3 = styled.div`
   box-shadow: 1px 1px 1px 1px #000000;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 100px;
+  margin-left: 200px; /* 오른쪽 여백 추가 */
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+   background-color: #0056b3;
+  }
+`;
+
 const Homeworks = (props) => {
   const [homeworks, setHomework] = useState([]);
+  
+  const user = {id : 1, role : "Student"};
 
   useEffect(() => {
     setHomework(homelist);
@@ -127,10 +164,14 @@ const Homeworks = (props) => {
 
   //const { id } = useParams();
 
+  const handleClick = () => {
+    window.location.href = '/homework/post';
+  };
+
   return (
     <>
       <Layout />
-      <Body>
+      <NoticeContainer>
         <LeftCon>
           {homeworks.map((item) => (
             <Link to={`/homework/${item.id}`} key={item.id}>
@@ -138,7 +179,13 @@ const Homeworks = (props) => {
             </Link>
           ))}
         </LeftCon>
-      </Body>
+        <ButtonContainer>
+          <StyledButton onClick={handleClick}>과제 등록</StyledButton>
+        </ButtonContainer>
+      </NoticeContainer>
+      
+
+
     </>
     // <Container>
     //   <FilmCase src={filmCase} />

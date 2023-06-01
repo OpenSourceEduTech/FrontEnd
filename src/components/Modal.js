@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import Profile from "../assets/profile.png";
 import styled from "styled-components";
+import { Link, NavLink } from "react-router-dom";
 
 // 모달 스타일 설정
 const modalStyles = {
@@ -22,6 +23,18 @@ const modalStyles = {
     zindex: 0,
   },
 };
+
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+   background-color: #0056b3;
+  }
+`;
 
 // 프로필 모달 컴포넌트
 const ProfileModal = () => {
@@ -59,6 +72,10 @@ const ProfileModal = () => {
     setIsOpen(false);
   };
 
+  const handleClick = () => {
+    window.location.href = '/mypage';
+  };
+
   return (
     <div>
       {/* 프로필을 보여줄 버튼 또는 링크 */}
@@ -74,11 +91,12 @@ const ProfileModal = () => {
         {/* 프로필 내용 */}
         <h2>프로필</h2>
         <img src={Profile} width="35vh" height="30vh" />
-        <Name> 이름: {user.name}</Name>
-        <Email>이메일: {user.email}</Email>
+        <Name> 이름 : {user.name}</Name>
+        <Email> 이메일 : {user.email}</Email>
         <Info>
-          <button>개인정보수정</button>
-          <button>로그아웃</button>
+          {/* <StyledButton onClick={handleClick}>개인정보수정</StyledButton> */}
+          <button onClick={handleClick}>개인정보수정</button>
+          <button >로그아웃</button>
         </Info>
       </Modal>
     </div>

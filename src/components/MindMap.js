@@ -1,35 +1,47 @@
 import React, { useState } from "react";
-import { Stage, Layer, Circle, Line, Text } from "react-konva";
-import styled from "styled-components";
+import { Stage, Layer, Circle, Text } from "react-konva";
+import Modal from './Modal';
 
 const MindMap = () => {
   const [topic, setTopic] = useState("주제");
   const [questions, setQuestions] = useState([]);
-  const [newQuestion, setNewQuestion] = useState("");
+  const [newQuestion, setNewQuestion] = useState({ title: '', content: '' });
   const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
-  const [selectedNodeContent, setSelectedNodeContent] = useState("");
+  const [selectedQuestion, setSelectedQuestion] = useState({ title: '', content: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const nodeRadius = 50;
+  const nodeColor = "rgba(255, 0, 0, 0.7)";
+  const topicNodeColor = "skyblue";
+  const distanceFactor = 1.2;  // Node 간 거리를 20% 벌리기 위한 요인
 
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
 
   const addNode = (e) => {
     e.preventDefault();
-    setQuestions([...questions, { content: newQuestion }]);
-    setNewQuestion("");
+    let level = Math.floor(questions.length / 4) + 1;
+    let levelCount = questions.filter((q) => q.level === level).length;
+    if (levelCount >= 4 * level) {
+      level += 1;
+    }
+    setQuestions([...questions, { ...newQuestion, level }]);
+    setNewQuestion({ title: '', content: '' });
   };
 
   const selectNode = (index) => {
     setSelectedNodeIndex(index);
-    setSelectedNodeContent(questions[index].content);
+    setSelectedQuestion(questions[index]);
+    setIsModalOpen(true);
   };
 
   const updateNode = (e) => {
     e.preventDefault();
     const updatedQuestions = [...questions];
-    updatedQuestions[selectedNodeIndex].content = selectedNodeContent;
+    updatedQuestions[selectedNodeIndex] = selectedQuestion;
     setQuestions(updatedQuestions);
     setSelectedNodeIndex(null);
-    setSelectedNodeContent("");
+    setSelectedQuestion({ title: '', content: '' });
   };
 
   const deleteNode = () => {
@@ -37,35 +49,44 @@ const MindMap = () => {
     updatedQuestions.splice(selectedNodeIndex, 1);
     setQuestions(updatedQuestions);
     setSelectedNodeIndex(null);
-    setSelectedNodeContent("");
+    setSelectedQuestion({ title: '', content: '' });
+  };
+
+  const calculateCoordinates = (question, i, arr) => {
+    const levelQuestions = arr.filter((q) => q.level === question.level);
+    const levelIndex = levelQuestions.findIndex((q) => q.title === question.title);
+    const angle = (levelIndex / levelQuestions.length) * Math.PI * 2;
+    const baseRadius = Math.min(centerX, centerY) / 3 * distanceFactor;
+    const radius = baseRadius * question.level;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+
+    return { x, y };
   };
 
   const renderNodes = () => {
-    const radius = 200;
     return questions.map((question, i, arr) => {
-      const angle = (i / (arr.length || 1)) * Math.PI * 2;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
+      const { x, y } = calculateCoordinates(question, i, arr);
 
       return (
         <React.Fragment key={i}>
           <Circle
             x={x}
             y={y}
-            radius={30}
-            fill="red"
+            radius={nodeRadius}
+            fill={nodeColor}
             draggable
             onClick={() => selectNode(i)}
           />
           <Text
-            text={question.content}
-            x={x}
-            y={y}
+            text={question.title}
+            x={x - nodeRadius / 2}
+            y={y - nodeRadius / 2}
             align="center"
             verticalAlign="middle"
-            width={60}
+            width={nodeRadius}
+            fontSize={16}  // 글씨 크기를 10% 늘림
           />
-          <Line points={[centerX, centerY, x, y]} stroke="black" />
         </React.Fragment>
       );
     });
@@ -75,23 +96,47 @@ const MindMap = () => {
     <div>
       <h1>{topic}</h1>
       <form onSubmit={addNode}>
-        <input
-          type="text"
-          value={newQuestion}
-          onChange={(e) => setNewQuestion(e.target.value)}
-          required
-        />
+        <label>
+          제목:
+          <input
+            type="text"
+            value={newQuestion.title}
+            onChange={(e) => setNewQuestion({ ...newQuestion, title: e.target.value })}
+            required
+          />
+        </label>
+        <label>
+          내용:
+          <input
+            type="text"
+            value={newQuestion.content}
+            onChange={(e) => setNewQuestion({ ...newQuestion, content: e.target.value })}
+            required
+          />
+        </label>
         <button type="submit">질문 추가</button>
       </form>
       {selectedNodeIndex !== null && (
         <div>
           <form onSubmit={updateNode}>
-            <input
-              type="text"
-              value={selectedNodeContent}
-              onChange={(e) => setSelectedNodeContent(e.target.value)}
-              required
-            />
+            <label>
+              제목:
+              <input
+                type="text"
+                value={selectedQuestion.title}
+                onChange={(e) => setSelectedQuestion({ ...selectedQuestion, title: e.target.value })}
+                required
+              />
+            </label>
+            <label>
+              내용:
+              <input
+                type="text"
+                value={selectedQuestion.content}
+                onChange={(e) => setSelectedQuestion({ ...selectedQuestion, content: e.target.value })}
+                required
+              />
+            </label>
             <button type="submit">노드 업데이트</button>
           </form>
           <button onClick={deleteNode}>노드 삭제</button>
@@ -99,20 +144,30 @@ const MindMap = () => {
       )}
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Circle x={centerX} y={centerY} radius={40} fill="blue" />
+          <Circle x={centerX} y={centerY} radius={nodeRadius} fill={topicNodeColor} />
           <Text
             text={topic}
-            x={centerX}
-            y={centerY}
+            x={centerX - nodeRadius / 2}
+            y={centerY - nodeRadius / 2}
             align="center"
             verticalAlign="middle"
-            width={80}
+            width={nodeRadius}
+            fontSize={18}  // 글씨 크기를 10% 늘림
           />
           {renderNodes()}
         </Layer>
       </Stage>
+      {isModalOpen && (
+        <Modal>
+          <h2>{selectedQuestion.title}</h2>
+          <p>{selectedQuestion.content}</p>
+          <button onClick={() => setIsModalOpen(false)}>닫기</button>
+        </Modal>
+      )}
     </div>
   );
 };
 
 export default MindMap;
+
+

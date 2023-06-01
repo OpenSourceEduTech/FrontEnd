@@ -11,6 +11,9 @@ import MindMap from "./components/MindMap";
 // import Validation, { ROLE } from "./components/validation";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import HomeworkPost from "./pages/HomeworkPost";
+import NoticePost from "./pages/NoticePost";
+
 const App = () => {
   const [role, setRole] = useState("");
 
@@ -62,6 +65,9 @@ const App = () => {
         <Route path="/notice" element={<Notice />} />
         <Route path="/user" element={<User />} />
         <Route path="/question" element={<MindMap />} />
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/homework/post" element={<HomeworkPost />} />
+        <Route path="/notice/post" element={<NoticePost />} />
         <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </Router>

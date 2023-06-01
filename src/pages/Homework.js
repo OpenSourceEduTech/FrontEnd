@@ -136,9 +136,11 @@ const Homework = () => {
   const goQuestion = () => {
     navigate(`/question`);
   };
+  
+
   return (
     <>
-      <Layout />
+     <Layout />
       <Body>
         <LeftCon>
           <Title>{data.title}</Title>
@@ -163,6 +165,7 @@ const Homework = () => {
           </Mytask>
         </RightCon>
       </Body>
+
     </>
   );
 };
