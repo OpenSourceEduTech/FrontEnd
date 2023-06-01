@@ -1,54 +1,51 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
+import React, { useState } from "react";
+import Modal from "react-modal";
 import Profile from "../assets/profile.png";
 import styled from "styled-components";
 
 // 모달 스타일 설정
 const modalStyles = {
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: "rgba(0, 0, 0, 0)",
     // zIndex: 9999,
   },
   content: {
-    width: '350px',
-    height: '270px',
-    left: '1030px' ,
-    top: '-250px',
-    margin: 'auto',
-    border: '0.1px solid #ccc',
-    padding: '20px',
-    borderRadius: '30px',
-    backgroundColor: '#F0F0F0',
-    zindex: 0
+    width: "350px",
+    height: "270px",
+    left: "1030px",
+    top: "-250px",
+    margin: "auto",
+    border: "0.1px solid #ccc",
+    padding: "20px",
+    borderRadius: "30px",
+    backgroundColor: "#F0F0F0",
+    zindex: 0,
   },
 };
 
 // 프로필 모달 컴포넌트
 const ProfileModal = () => {
-
   const Name = styled.div`
-  width: 350px;
-  height: 30px;
-  borderRadius: 4px;
-  background-color: #DCDCDC;
-`;
-const Email = styled.div`
-  width: 350px;
-  height: 30px;
-  borderRadius: 4px;
-  background-color: #DCDCDC;
-`;
+    width: 350px;
+    height: 30px;
+    borderradius: 4px;
+    background-color: #dcdcdc;
+  `;
+  const Email = styled.div`
+    width: 350px;
+    height: 30px;
+    borderradius: 4px;
+    background-color: #dcdcdc;
+  `;
 
-const Info = styled.div`
-  width: 350px;
-  height: 30px;
-  borderRadius: 4px;
-  background-color: #DCDCDC;
-`;
+  const Info = styled.div`
+    width: 350px;
+    height: 30px;
+    borderradius: 4px;
+    background-color: #dcdcdc;
+  `;
 
-
-
-  const user = {id : 1, name : 'SeongWon', email : 'djfqks22@naver.com'};
+  const user = { id: 1, name: "SeongWon", email: "djfqks22@naver.com" };
 
   const [isOpen, setIsOpen] = useState(false);
 
