@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Layout from "../components/Layout";
 import { homelist } from "../components/Data";
 import React, { useEffect, useState, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 const NoticeContainer = styled.div`
   background-color: #fff;
   padding: 20px;
@@ -87,6 +87,7 @@ const Homeworks = (props) => {
   const handleClick = () => {
     window.location.href = "/homework/post";
   };
+  const { id1, id2 } = useParams();
 
   return (
     <>

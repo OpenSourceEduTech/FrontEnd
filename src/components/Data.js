@@ -17,4 +17,18 @@ const getPostByNo = (no) => {
   }
   return null;
 };
-export { homelist, getPostByNo };
+const Lecture = [
+  {
+    id: "1",
+    title: "오픈소스고급설계",
+  },
+  {
+    id: "2",
+    title: "자료구조",
+  },
+  {
+    id: "3",
+    title: "프로그래밍1",
+  },
+];
+export { homelist, getPostByNo, Lecture };
