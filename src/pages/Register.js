@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../components/Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const Register = () => {
   const navigate = useNavigate();
   const Con = styled.div`
