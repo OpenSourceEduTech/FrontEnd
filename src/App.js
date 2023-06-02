@@ -53,8 +53,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Login />} />
         <Route path="/main" element={<Main />} />
         {/* <Route path="/" exact render={() => <Main myRole={getMyRole()} />} />
         <Route path="/user" component={User} role={myRole.User} />

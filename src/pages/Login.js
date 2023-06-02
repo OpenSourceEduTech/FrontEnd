@@ -16,10 +16,9 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
+  const goRegister = () => {
+    navigate("/register");
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     // 여기에서 로그인 처리 로직을 작성합니다.
@@ -71,6 +70,7 @@ const Login = () => {
           </div>
         </form>
         <button onClick={handleLogin}>로그인</button>
+        <button onClick={goRegister}>회원가입</button>
       </Con>
     </>
   );

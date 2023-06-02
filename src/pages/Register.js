@@ -70,12 +70,12 @@ const Register = () => {
     }
   `;
   const Option = styled.option``;
-  const handleLogin = () => {
+  const goLogin = () => {
     // 로그인 처리 로직
     // ...
 
     // 역할 정보를 담아서 다음 페이지로 이동
-    navigate(`/login`);
+    navigate(`/`);
   };
   //    const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -138,7 +138,7 @@ const Register = () => {
               </SelectWrapper>
             </Label>
           </InputWrapper>
-          <Button onClick={handleLogin}>회원가입</Button>
+          <Button onClick={goLogin}>회원가입</Button>
         </LoginPageWrapper>
       </Con>
     </>
