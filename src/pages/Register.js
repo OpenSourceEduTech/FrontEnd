@@ -71,33 +71,46 @@ const Register = () => {
   `;
   const Option = styled.option``;
   const goLogin = () => {
-    // 로그인 처리 로직
-    // ...
-
-    // 역할 정보를 담아서 다음 페이지로 이동
-    navigate(`/`);
+    axios
+      .post("/accounts/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      })
+      .then((body) => console.log("성공", body))
+      .then(() => navigate("/"));
   };
   //    const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-  const handleUsernameChange = (event) => {
-    setName(event.target.value);
+  const [inputs, setInput] = useState({
+    name: "",
+    password: "",
+    role: "",
+  });
+  const { name, password, role } = inputs;
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setInput({
+      ...inputs,
+      [name]: value,
+    });
   };
+  // const [name, setName] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [role, setRole] = useState("");
+  // const handleUsernameChange = (event) => {
+  //   setName(event.target.value);
+  // };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+  // const handlePasswordChange = (event) => {
+  //   setPassword(event.target.value);
+  // };
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
+  // const handleRoleChange = (event) => {
+  //   setRole(event.target.value);
+  // };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // 여기에서 로그인 처리 로직을 작성합니다.
-    // 예를 들어, 서버로 사용자 정보를 전송하고 인증을 수행하는 등의 작업을 수행할 수 있습니다.
-  };
   return (
     <>
       <Layout />
@@ -107,30 +120,19 @@ const Register = () => {
           <InputWrapper>
             <Label htmlFor="name">아이디 </Label>
 
-            <InputField
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <InputField type="text" value={name} onChange={onChange} />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="password">비밀번호 </Label>
 
-            <InputField
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <InputField type="password" value={password} onChange={onChange} />
           </InputWrapper>
           <InputWrapper>
             <Label>
               역할
               <br />
               <SelectWrapper>
-                <SelectField
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                >
+                <SelectField value={role} onChange={onChange}>
                   <Option value="">선택하세요</Option>
                   <Option value="student">학생</Option>
                   <Option value="professor">교수</Option>
