@@ -32,7 +32,7 @@ const StyledButton = styled.button`
   cursor: pointer;
 
   &:hover {
-   background-color: #0056b3;
+    background-color: #0056b3;
   }
 `;
 
@@ -72,8 +72,8 @@ const ProfileModal = () => {
     setIsOpen(false);
   };
 
-  const handleClick = () => {
-    window.location.href = '/mypage';
+  const goLogin = () => {
+    window.location.href = "/";
   };
 
   return (
@@ -95,8 +95,7 @@ const ProfileModal = () => {
         <Email> 이메일 : {user.email}</Email>
         <Info>
           {/* <StyledButton onClick={handleClick}>개인정보수정</StyledButton> */}
-          <button onClick={handleClick}>개인정보수정</button>
-          <button >로그아웃</button>
+          <button onClick={goLogin}>로그아웃</button>
         </Info>
       </Modal>
     </div>

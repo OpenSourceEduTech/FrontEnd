@@ -38,7 +38,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -81,6 +80,7 @@ const Login = () => {
             <Label htmlFor="username">사용자 이름:</Label>
             <InputField
               type="text"
+              name="username"
               id="username"
               value={username}
               onChange={handleUsernameChange}
@@ -92,6 +92,7 @@ const Login = () => {
             <InputField
               type="password"
               id="password"
+              name="password"
               value={password}
               onChange={handlePasswordChange}
             />
