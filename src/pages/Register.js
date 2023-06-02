@@ -85,11 +85,11 @@ const Register = () => {
 
   //    const navigate = useNavigate();
   const [inputs, setInput] = useState({
-    name: "",
-    password: "",
+    id: "",
+    pass: "",
     role: "",
   });
-  const { name, password, role } = inputs;
+  const { id, pass, role } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInput({
@@ -97,15 +97,11 @@ const Register = () => {
       [name]: value,
     });
   };
+  
   const goLogin = () => {
+    console.log(inputs)
     axios
-      .post("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs),
-      })
+      .post("/signup", inputs)
       .then((body) => console.log("성공", body))
       .then(() => navigate("/"));
   };
@@ -136,8 +132,8 @@ const Register = () => {
 
             <InputField
               type="text"
-              name="name"
-              value={name}
+              name="id"
+              value={id}
               onChange={onChange}
             />
           </InputWrapper>
@@ -145,9 +141,9 @@ const Register = () => {
             <Label htmlFor="password">비밀번호 </Label>
 
             <InputField
-              name="password"
+              name="pass"
               type="password"
-              value={password}
+              value={pass}
               onChange={onChange}
             />
           </InputWrapper>
