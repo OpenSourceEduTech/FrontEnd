@@ -97,9 +97,17 @@ const Register = () => {
       [name]: value,
     });
   };
+
   const goLogin = () => {
+    console.log(inputs);
     axios
-      .post("/api/signup", inputs)
+      .post("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      })
       .then((body) => console.log("성공", body))
       .then(() => navigate("/"));
   };
