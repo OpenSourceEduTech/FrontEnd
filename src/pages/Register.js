@@ -3,73 +3,74 @@ import Layout from "../components/Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const Con = styled.div`
+background-color: #fff;
+padding: 20px;
+border-radius: 5px;
+display: flex;
+flex-direction: column;
+align-items: center;
+position: fixed;
+top: 10%;
+left: 0;
+right: 0;
+`;
+const LoginPageWrapper = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
+
+const InputWrapper = styled.div`
+margin-bottom: 10%;
+`;
+
+const Label = styled.label`
+display: block;
+margin-bottom: 10%;
+`;
+
+const InputField = styled.input`
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+`;
+const Button = styled.button`
+padding: 8px 12px;
+background-color: #f0f0f0;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+
+&:hover {
+  background-color: #e0e0e0;
+}
+`;
+const SelectWrapper = styled.div`
+position: relative;
+`;
+
+const SelectField = styled.select`
+width: 100%;
+padding: 5px;
+border: 1px solid #ccc;
+border-radius: 4px;
+appearance: none;
+background-color: white;
+background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="%23333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 10 13 14 9"%3E%3C/polyline%3E%3C/svg%3E');
+background-repeat: no-repeat;
+background-position: right 0.5rem center;
+cursor: pointer;
+
+&:focus {
+  outline: none;
+  border-color: #888;
+}
+`;
+const Option = styled.option``;
 const Register = () => {
   const navigate = useNavigate();
-  const Con = styled.div`
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 10%;
-    left: 0;
-    right: 0;
-  `;
-  const LoginPageWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `;
 
-  const InputWrapper = styled.div`
-    margin-bottom: 10%;
-  `;
-
-  const Label = styled.label`
-    display: block;
-    margin-bottom: 10%;
-  `;
-
-  const InputField = styled.input`
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  `;
-  const Button = styled.button`
-    padding: 8px 12px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #e0e0e0;
-    }
-  `;
-  const SelectWrapper = styled.div`
-    position: relative;
-  `;
-
-  const SelectField = styled.select`
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    appearance: none;
-    background-color: white;
-    background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="%23333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 10 13 14 9"%3E%3C/polyline%3E%3C/svg%3E');
-    background-repeat: no-repeat;
-    background-position: right 0.5rem center;
-    cursor: pointer;
-
-    &:focus {
-      outline: none;
-      border-color: #888;
-    }
-  `;
-  const Option = styled.option``;
   const goLogin = () => {
     axios
       .post("/accounts/register", {
@@ -119,8 +120,7 @@ const Register = () => {
           <h1>회원가입</h1>
           <InputWrapper>
             <Label htmlFor="name">아이디 </Label>
-
-            <InputField type="text" value={name} onChange={onChange} />
+            <InputField id="name" type="text" value={name} onChange={onChange} />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="password">비밀번호 </Label>
