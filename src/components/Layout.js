@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ProfileModal from "./Modal";
 
-
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -84,21 +83,23 @@ const Layout = () => {
   const goUser = () => {
     navigate(`/user`);
   };
- 
+  const goHome = () => {
+    navigate("/main");
+  };
 
   return (
     <Container>
       <Header>
         <TitleContainer>
-          <Title>오픈소스 고급 설계</Title>
+          <Title onClick={goHome}>오픈소스 고급 설계</Title>
 
           <Column>
             <Btn onClick={goHomework}>과제</Btn>
             <Btn onClick={goNotice}>공지사항</Btn>
             <Btn onClick={goUser}>사용자</Btn>
           </Column>
-          <Img>         
-              <ProfileModal/>
+          <Img>
+            <ProfileModal />
           </Img>
         </TitleContainer>
       </Header>
