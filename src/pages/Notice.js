@@ -22,8 +22,9 @@ const Con = styled.div`
   width: 80%;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   background-color: white;
+  margin-left: 10%;
 `;
 
 const NoticeList = styled.div`
@@ -69,10 +70,35 @@ const StyledButton = styled.button`
   color: white;
 
   &:hover {
-   background-color: #0056b3;
+    background-color: #0056b3;
   }
 `;
-
+const Title = styled.div`
+  align-text: center;
+  display: flex;
+  margin-left: 35%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  height: 3%;
+  width: 100%;
+  font-size: 25px;
+  color: #0000ff;
+`;
+const Line = styled.div`
+  width: 70%;
+  height: 30%;
+  border-top: 1.5px solid #0000ff;
+  flex-direction: column;
+  display: flex;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0.5vw;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #ccc;
+  }
+`;
 const Notice = () => {
   const [selectedNotice, setSelectedNotice] = useState();
   const noticeData = [
@@ -87,13 +113,15 @@ const Notice = () => {
   };
 
   const handleClick = () => {
-    window.location.href = '/notice/post';
+    window.location.href = "/notice/post";
   };
 
   return (
     <>
       <Layout />
       <NoticeContainer>
+        <Title>공지사항</Title>
+        <Line></Line>
         {noticeData.length > 0 ? (
           <Con>
             {noticeData.map((item) => (

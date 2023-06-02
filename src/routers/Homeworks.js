@@ -4,9 +4,8 @@ import { homelist } from "../components/Data";
 import Homework from "../pages/Homework";
 import React, { useEffect, useState, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useParams } from "react-router";
 
-
+import { useNavigate } from "react-router-dom";
 const NoticeContainer = styled.div`
   background-color: #fff;
   padding: 20px;
@@ -30,6 +29,7 @@ const Body = styled.div`
   width: 100vw;
   height: 100vh;
 `;
+
 const LeftCon = styled.div`
   flex-direction: column;
   display: flex;
@@ -37,8 +37,9 @@ const LeftCon = styled.div`
   width: 80%;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   background-color: white;
+  margin-left: 10%;
 `;
 const RightCon = styled.div`
   width: 25%;
@@ -58,15 +59,7 @@ const Mytask = styled.div`
   align-items: center;
   border: 2px;
 `;
-const Tasktitle = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  height: 15%;
-  text-align: center;
-  align-items: center;
-  margin-top: 5%;
-`;
+
 const TaskSubmit = styled.button`
   width: 80%;
   height: 20%;
@@ -94,12 +87,28 @@ const TaskSubmitted = styled.button`
 const Title = styled.div`
   align-text: center;
   display: flex;
-  margin-bottom: 2%;
-  margin-left: 20%;
-  justify-content: left;
+  margin-left: 35%;
+  margin-bottom: 1%;
+  margin-top: 1%;
   height: 3%;
   width: 100%;
-  font-size: 30px;
+  font-size: 25px;
+  color: #0000ff;
+`;
+const Line = styled.div`
+  width: 70%;
+  height: 30%;
+  border-top: 1.5px solid #0000ff;
+  flex-direction: column;
+  display: flex;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0.5vw;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #ccc;
+  }
 `;
 const Pro = styled.div`
   align-text: center;
@@ -149,14 +158,13 @@ const StyledButton = styled.button`
   color: white;
 
   &:hover {
-   background-color: #0056b3;
+    background-color: #0056b3;
   }
 `;
 
 const Homeworks = (props) => {
   const [homeworks, setHomework] = useState([]);
-  
-  const user = {id : 1, role : "Student"};
+  const user = { id: 1, role: "Student" };
 
   useEffect(() => {
     setHomework(homelist);
@@ -165,16 +173,23 @@ const Homeworks = (props) => {
   //const { id } = useParams();
 
   const handleClick = () => {
-    window.location.href = '/homework/post';
+    window.location.href = "/homework/post";
   };
 
   return (
     <>
       <Layout />
+
       <NoticeContainer>
+        <Title>과제목록</Title>
+        <Line></Line>
         <LeftCon>
           {homeworks.map((item) => (
-            <Link to={`/homework/${item.id}`} key={item.id}>
+            <Link
+              to={`/homework/${item.id}`}
+              key={item.id}
+              style={{ textDecoration: "none" }}
+            >
               <h2>{item.title}</h2>
             </Link>
           ))}
@@ -183,9 +198,6 @@ const Homeworks = (props) => {
           <StyledButton onClick={handleClick}>과제 등록</StyledButton>
         </ButtonContainer>
       </NoticeContainer>
-      
-
-
     </>
     // <Container>
     //   <FilmCase src={filmCase} />
