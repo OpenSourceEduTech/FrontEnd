@@ -85,11 +85,11 @@ const Register = () => {
 
   //    const navigate = useNavigate();
   const [inputs, setInput] = useState({
-    name: "",
-    password: "",
+    id: "",
+    pass: "",
     role: "",
   });
-  const { name, password, role } = inputs;
+  const { id, pass, role } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInput({
@@ -99,16 +99,11 @@ const Register = () => {
   };
   const goLogin = () => {
     axios
-      .post("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs),
-      })
+      .post("/api/signup", inputs)
       .then((body) => console.log("성공", body))
       .then(() => navigate("/"));
   };
+  console.log(inputs);
   // const [name, setName] = useState("");
   // const [password, setPassword] = useState("");
   // const [role, setRole] = useState("");
@@ -134,20 +129,15 @@ const Register = () => {
           <InputWrapper>
             <Label htmlFor="name">아이디 </Label>
 
-            <InputField
-              type="text"
-              name="name"
-              value={name}
-              onChange={onChange}
-            />
+            <InputField type="text" name="id" value={id} onChange={onChange} />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="password">비밀번호 </Label>
 
             <InputField
-              name="password"
+              name="pass"
               type="password"
-              value={password}
+              value={pass}
               onChange={onChange}
             />
           </InputWrapper>
