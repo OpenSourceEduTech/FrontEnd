@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../components/Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const Login = () => {
   const LoginPageWrapper = styled.div`
     display: flex;
@@ -36,27 +36,57 @@ const Login = () => {
     }
   `;
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const [inputs, setInput] = useState({
+    id: "",
+    pass: "",
+  });
+  const { id, pass } = inputs;
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setInput({
+      ...inputs,
+      [name]: value,
+    });
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+  // const [id, setUsername] = useState("");
+  // const [pass, setPassword] = useState("");
+  // const handleUsernameChange = (event) => {
+  //   setUsername(event.target);
+  // };
+
+  // const handlePasswordChange = (event) => {
+  //   setPassword(event.target);
+  // };
 
   const goRegister = () => {
     navigate("/register");
   };
+  const handleLogin = (event) => {
+    // event.preventDefault();
+    // axios.defaults.withCredentials = true;
+    axios
+      .post("/login", inputs)
+      .then((res) => {
+        console.log(res);
+        // if (cookies.session_id === 404) {
+        //   alert("email이 틀림");
+        // } else if (cookies.session_id === 400) {
+        //   alert("비밀번호 다름");
+        // } //id있는데 pw다름
+        // else {
+        //   //   setCookie(cookies);
+        //   localStorage.setItem("session_id", ryu.get("session_id"));
+        // }
+        // navigate("/");
 
-  const handleLogin = () => {
-    // 로그인 처리 로직
-    // ...
-
-    // 역할 정보를 담아서 다음 페이지로 이동
-    navigate(`/main`);
+        //document.location.href='/write'
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   const Con = styled.div`
     background-color: #fff;
     padding: 20px;
@@ -80,10 +110,10 @@ const Login = () => {
             <Label htmlFor="username">사용자 이름:</Label>
             <InputField
               type="text"
-              name="username"
-              id="username"
-              value={username}
-              onChange={handleUsernameChange}
+              name="id"
+              id="id"
+              value={id}
+              onChange={onChange}
             />
           </InputWrapper>
 
@@ -91,10 +121,10 @@ const Login = () => {
             <Label htmlFor="password">비밀번호:</Label>
             <InputField
               type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handlePasswordChange}
+              id="pass"
+              name="pass"
+              value={pass}
+              onChange={onChange}
             />
           </InputWrapper>
           <Button onClick={handleLogin}>로그인</Button>
