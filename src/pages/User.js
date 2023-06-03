@@ -1,5 +1,7 @@
 import Layout from "../components/Layout";
 import styled from "styled-components";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Body = styled.div`
   display: flex;
@@ -69,72 +71,85 @@ const Name = styled.div`
   font-size: 14px;
   color: black;
 `;
-const infor = [
-  {
-    role: "professor",
-    images:
-      "https://mblogthumb-phinf.pstatic.net/MjAxODA1MjhfMTA0/MDAxNTI3NDg3MTczOTY5.C2eXPMwTXPN7mN6rhXpLrbLAu36fyR7JDr3Ym8URGl8g.97dxz-n9zjbzgv8KbhDwrICDNbNierqWueC0aRsfgjIg.JPEG.ehfkdl8989/KakaoTalk_Moim_4UjmLsR1AohJhEmSqqNZkX7uHKU0kp.jpg?type=w800",
-    name: "보노보노",
-  },
-  {
-    role: "student",
-    images:
-      "https://item.kakaocdn.net/do/218bdb82c9a7456ee2080fe14a4642927154249a3890514a43687a85e6b6cc82",
-    name: "보노보노2",
-  },
-  {
-    role: "student",
-    images:
-      "https://dthezntil550i.cloudfront.net/by/latest/by2107310110043690021607870/1280_960/29d7f7be-9363-40a2-bb21-e2d8b6c5ff89.jpg",
-    name: "보노보노3",
-  },
-  {
-    role: "professor",
-    images:
-      "https://m.animegoods.co.kr/web/product/big/202108/652969ddecc475f26c29f3fb1a75603e.jpg",
-    name: "보노보노4",
-  },
-  {
-    role: "student",
-    images:
-      "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
-    name: "보노보노5",
-  },
-  {
-    role: "student",
-    images:
-      "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
-    name: "보노보노5",
-  },
-  {
-    role: "student",
-    images:
-      "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
-    name: "보노보노5",
-  },
-  {
-    role: "student",
-    images:
-      "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
-    name: "보노보노5",
-  },
-  {
-    role: "student",
-    images:
-      "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
-    name: "보노보노5",
-  },
-  {
-    role: "student",
-    images:
-      "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
-    name: "보노보노5",
-  },
-];
+// const infor = [
+//   {
+//     role: "professor",
+//     images:
+//       "https://mblogthumb-phinf.pstatic.net/MjAxODA1MjhfMTA0/MDAxNTI3NDg3MTczOTY5.C2eXPMwTXPN7mN6rhXpLrbLAu36fyR7JDr3Ym8URGl8g.97dxz-n9zjbzgv8KbhDwrICDNbNierqWueC0aRsfgjIg.JPEG.ehfkdl8989/KakaoTalk_Moim_4UjmLsR1AohJhEmSqqNZkX7uHKU0kp.jpg?type=w800",
+//     name: "보노보노",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://item.kakaocdn.net/do/218bdb82c9a7456ee2080fe14a4642927154249a3890514a43687a85e6b6cc82",
+//     name: "보노보노2",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://dthezntil550i.cloudfront.net/by/latest/by2107310110043690021607870/1280_960/29d7f7be-9363-40a2-bb21-e2d8b6c5ff89.jpg",
+//     name: "보노보노3",
+//   },
+//   {
+//     role: "professor",
+//     images:
+//       "https://m.animegoods.co.kr/web/product/big/202108/652969ddecc475f26c29f3fb1a75603e.jpg",
+//     name: "보노보노4",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+//     name: "보노보노5",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+//     name: "보노보노5",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+//     name: "보노보노5",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+//     name: "보노보노5",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+//     name: "보노보노5",
+//   },
+//   {
+//     role: "student",
+//     images:
+//       "https://post-phinf.pstatic.net/MjAyMDEyMTdfNDEg/MDAxNjA4MTk2MTAwODYw.2uOmdUztzMgTu88PhWETDlbIPjBUFD1w0jDog1Uo4wYg.9aRVKACms7XPuiuEBERSIqIxMSwZJYSkDVxRfGaMQ9Mg.PNG/31.png?type=w1200",
+//     name: "보노보노5",
+//   },
+// ];
 const User = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('/lecture/1/users')
+      .then(response => {
+        const usersData = response.data;
+        setUsers(usersData);
+      })
+      .catch(error => {
+        console.error('Error fetching users:', error);
+      });
+  }, []);
   // const [infor, setInfor] = useState([]);
-  const professor = infor.filter((v) => v.role == "professor");
-  const student = infor.filter((v) => v.role == "student");
+  const professor = users.filter((v) => v.role == "professor");
+  const student = users.filter((v) => v.role == "student");
   return (
     <>
       <Layout />
@@ -143,8 +158,8 @@ const User = () => {
           <Title>교수</Title>
           <Line>
             {professor.map((infor) => (
-              <InforCon key={infor.images}>
-                <Imgframe src={infor.images} />
+              <InforCon key={infor.image}>
+                <Imgframe src={infor.image} />
                 <Name>{infor.name}</Name>
               </InforCon>
             ))}
@@ -152,8 +167,8 @@ const User = () => {
           <Title>학생</Title>
           <Line>
             {student.map((infor) => (
-              <InforCon key={infor.images}>
-                <Imgframe src={infor.images} />
+              <InforCon key={infor.image}>
+                <Imgframe src={infor.image} />
                 <Name>{infor.name}</Name>
               </InforCon>
             ))}
