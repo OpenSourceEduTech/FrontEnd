@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import Layout from "../components/Layout";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const NoticeContainer = styled.div`
   background-color: #fff;
@@ -100,21 +100,44 @@ const Line = styled.div`
   }
 `;
 const Notice = () => {
-  const [selectedNotice, setSelectedNotice] = useState();
-  const noticeData = [
-    { id: 1, title: "공지1", content: "첫 번째 공지사항입니다." },
-    { id: 2, title: "공지2", content: "두 번째 공지사항입니다." },
-    { id: 3, title: "공지3", content: "세 번째 공지사항입니다." },
-  ];
+  // const noticeData = [
+  //   { id: 1, title: "공지1", content: "첫 번째 공지사항입니다." },
+  //   { id: 2, title: "공지2", content: "두 번째 공지사항입니다." },
+  //   { id: 3, title: "공지3", content: "세 번째 공지사항입니다." },
+  // ];
+  const [selectedNotice, setSelectedNotice] = useState(null);
+  const [noticeData, setNoticeData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/lecture/1/homeworks")
+      .then((response) => {
+        setNoticeData(response.data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch notice data:", error);
+      });
+  }, []);
 
   const handleNoticeClick = (noticeId) => {
-    const selected = noticeData.find((item) => item.id == noticeId);
+    const selected = noticeData.find((item) => item.id === noticeId);
     setSelectedNotice(selected);
+    console.log(selected);
   };
 
   const handleClick = () => {
     window.location.href = "/notice/post";
   };
+
+  // const handleNoticeClick = (noticeId) => {
+  //   const selected = noticeData.find((item) => item.id == noticeId);
+  //   setSelectedNotice(selected);
+  //   console.log(selected);
+  // };
+
+  // const handleClick = () => {
+  //   window.location.href = "/notice/post";
+  // };
 
   return (
     <>
