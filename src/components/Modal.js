@@ -73,6 +73,8 @@ const ProfileModal = () => {
   };
 
   const goLogin = () => {
+    localStorage.removeItem("role");
+    localStorage.removeItem("id");
     window.location.href = "/";
   };
 
@@ -91,8 +93,8 @@ const ProfileModal = () => {
         {/* 프로필 내용 */}
         <h2>프로필</h2>
         <img src={Profile} width="35vh" height="30vh" />
-        <Name> 이름 : {user.name}</Name>
-        <Email> 이메일 : {user.email}</Email>
+        <Name> 이름 : {localStorage.id}</Name>
+        <Email> 역할 : {localStorage.role}</Email>
         <Info>
           {/* <StyledButton onClick={handleClick}>개인정보수정</StyledButton> */}
           <button onClick={goLogin}>로그아웃</button>

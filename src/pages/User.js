@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import styled from "styled-components";
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Body = styled.div`
   display: flex;
@@ -138,13 +138,13 @@ const User = () => {
 
   useEffect(() => {
     axios
-      .get('/lecture/1/users')
-      .then(response => {
+      .get("/lecture/1/users")
+      .then((response) => {
         const usersData = response.data;
         setUsers(usersData);
       })
-      .catch(error => {
-        console.error('Error fetching users:', error);
+      .catch((error) => {
+        console.error("Error fetching users:", error);
       });
   }, []);
   // const [infor, setInfor] = useState([]);
@@ -152,29 +152,37 @@ const User = () => {
   const student = users.filter((v) => v.role == "student");
   return (
     <>
-      <Layout />
-      <Body>
-        <Con>
-          <Title>교수</Title>
-          <Line>
-            {professor.map((infor) => (
-              <InforCon key={infor.image}>
-                <Imgframe src={infor.image} />
-                <Name>{infor.name}</Name>
-              </InforCon>
-            ))}
-          </Line>
-          <Title>학생</Title>
-          <Line>
-            {student.map((infor) => (
-              <InforCon key={infor.image}>
-                <Imgframe src={infor.image} />
-                <Name>{infor.name}</Name>
-              </InforCon>
-            ))}
-          </Line>
-        </Con>
-      </Body>
+      {!localStorage.id ? (
+        <h2 style={{ textAlign: "center" }}>
+          접근이 제한되었습니다. 로그인이 필요합니다.
+        </h2>
+      ) : (
+        <>
+          <Layout />
+          <Body>
+            <Con>
+              <Title>교수</Title>
+              <Line>
+                {professor.map((infor) => (
+                  <InforCon key={infor.image}>
+                    <Imgframe src={infor.image} />
+                    <Name>{infor.name}</Name>
+                  </InforCon>
+                ))}
+              </Line>
+              <Title>학생</Title>
+              <Line>
+                {student.map((infor) => (
+                  <InforCon key={infor.image}>
+                    <Imgframe src={infor.image} />
+                    <Name>{infor.name}</Name>
+                  </InforCon>
+                ))}
+              </Line>
+            </Con>
+          </Body>
+        </>
+      )}
     </>
   );
 };

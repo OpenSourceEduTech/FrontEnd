@@ -84,7 +84,11 @@ const Layout = () => {
     navigate(`/user`);
   };
   const goHome = () => {
-    navigate("/main");
+    if (localStorage.id) {
+      navigate("/main");
+    } else {
+      navigate("/");
+    }
   };
 
   return (

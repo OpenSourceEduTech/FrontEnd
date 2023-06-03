@@ -118,31 +118,41 @@ const Notice = () => {
 
   return (
     <>
-      <Layout />
-      <NoticeContainer>
-        <Title>공지사항</Title>
-        <Line></Line>
-        {noticeData.length > 0 ? (
-          <Con>
-            {noticeData.map((item) => (
-              <NoticeItem
-                key={item.id}
-                onClick={() => handleNoticeClick(item.id)}
-              >
-                <NoticeTitle>{item.title}</NoticeTitle>
-                {selectedNotice && selectedNotice.id == item.id && (
-                  <NoticeContent>{selectedNotice.content}</NoticeContent>
-                )}
-              </NoticeItem>
-            ))}
-          </Con>
-        ) : (
-          <p>공지사항이 없습니다.</p>
-        )}
-        <ButtonContainer>
-          <StyledButton onClick={handleClick}>공지사항 등록</StyledButton>
-        </ButtonContainer>
-      </NoticeContainer>
+      {!localStorage.id ? (
+        <h2 style={{ textAlign: "center" }}>
+          접근이 제한되었습니다. 로그인이 필요합니다.
+        </h2>
+      ) : (
+        <>
+          <Layout />
+          <NoticeContainer>
+            <Title>공지사항</Title>
+            <Line></Line>
+            {noticeData.length > 0 ? (
+              <Con>
+                {noticeData.map((item) => (
+                  <NoticeItem
+                    key={item.id}
+                    onClick={() => handleNoticeClick(item.id)}
+                  >
+                    <NoticeTitle>{item.title}</NoticeTitle>
+                    {selectedNotice && selectedNotice.id == item.id && (
+                      <NoticeContent>{selectedNotice.content}</NoticeContent>
+                    )}
+                  </NoticeItem>
+                ))}
+              </Con>
+            ) : (
+              <p>공지사항이 없습니다.</p>
+            )}
+            <ButtonContainer>
+              {localStorage.role === "professor" && (
+                <StyledButton onClick={handleClick}>공지사항 등록</StyledButton>
+              )}
+            </ButtonContainer>
+          </NoticeContainer>
+        </>
+      )}
     </>
   );
 };

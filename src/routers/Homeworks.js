@@ -91,26 +91,35 @@ const Homeworks = (props) => {
 
   return (
     <>
-      <Layout />
-
-      <NoticeContainer>
-        <Title>과제목록</Title>
-        <Line></Line>
-        <LeftCon>
-          {homeworks.map((item) => (
-            <Link
-              to={`/homework/${item.id}`}
-              key={item.id}
-              style={{ textDecoration: "none" }}
-            >
-              <h2>{item.title}</h2>
-            </Link>
-          ))}
-        </LeftCon>
-        <ButtonContainer>
-          <StyledButton onClick={handleClick}>과제 등록</StyledButton>
-        </ButtonContainer>
-      </NoticeContainer>
+      {!localStorage.id ? (
+        <h2 style={{ textAlign: "center" }}>
+          접근이 제한되었습니다. 로그인이 필요합니다.
+        </h2>
+      ) : (
+        <>
+          <Layout />
+          <NoticeContainer>
+            <Title>과제목록</Title>
+            <Line></Line>
+            <LeftCon>
+              {homeworks.map((item) => (
+                <Link
+                  to={`/homework/${item.id}`}
+                  key={item.id}
+                  style={{ textDecoration: "none" }}
+                >
+                  <h2>{item.title}</h2>
+                </Link>
+              ))}
+            </LeftCon>
+            <ButtonContainer>
+              {localStorage.role === "professor" && (
+                <StyledButton onClick={handleClick}>과제 등록</StyledButton>
+              )}
+            </ButtonContainer>
+          </NoticeContainer>
+        </>
+      )}
     </>
   );
 };

@@ -51,7 +51,7 @@ const Con = styled.div`
 const Login = () => {
   const navigate = useNavigate();
   const ryu = new Cookies();
-  const [cookies, setCookie] = useCookies(["role"]);
+  const [cookies, setCookie] = useCookies(["role", "id"]);
   const [inputs, setInput] = useState({
     id: "",
     pass: "",
@@ -86,9 +86,11 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         setCookie("role", res.data.role);
-
+        setCookie("id", res.data.id);
         localStorage.setItem("role", ryu.get("role"));
-        console.log(cookies);
+        localStorage.setItem("id", ryu.get("id"));
+
+        console.log(localStorage);
         navigate("/main");
 
         //document.location.href='/write'
