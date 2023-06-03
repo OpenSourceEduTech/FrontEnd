@@ -3,39 +3,55 @@ import Layout from "../components/Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Cookies, useCookies } from "react-cookie";
+
+const LoginPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const InputWrapper = styled.div`
+  margin-bottom: 10%;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: 10%;
+`;
+
+const InputField = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+const Button = styled.button`
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+const Con = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  right: 0;
+`;
 const Login = () => {
-  const LoginPageWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `;
-
-  const InputWrapper = styled.div`
-    margin-bottom: 10%;
-  `;
-
-  const Label = styled.label`
-    display: block;
-    margin-bottom: 10%;
-  `;
-
-  const InputField = styled.input`
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  `;
-  const Button = styled.button`
-    padding: 8px 12px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #e0e0e0;
-    }
-  `;
   const navigate = useNavigate();
+  const ryu = new Cookies();
+  const [cookies, setCookie] = useCookies(["role"]);
   const [inputs, setInput] = useState({
     id: "",
     pass: "",
@@ -69,67 +85,56 @@ const Login = () => {
       .post("/login", inputs)
       .then((res) => {
         console.log(res);
-        // if (cookies.session_id === 404) {
-        //   alert("email이 틀림");
-        // } else if (cookies.session_id === 400) {
-        //   alert("비밀번호 다름");
-        // } //id있는데 pw다름
-        // else {
-        //   //   setCookie(cookies);
-        //   localStorage.setItem("session_id", ryu.get("session_id"));
-        // }
-        // navigate("/");
+        setCookie("role", res.data.role);
+
+        localStorage.setItem("role", ryu.get("role"));
+        console.log(cookies);
+        navigate("/main");
 
         //document.location.href='/write'
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 400) {
+          alert("로그인 실패");
+        }
       });
   };
 
-  const Con = styled.div`
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 10%;
-    left: 0;
-    right: 0;
-  `;
-
+  const Loginfunc = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <Layout />
       <Con>
         <LoginPageWrapper>
           <h1>로그인</h1>
-          <InputWrapper>
-            <Label htmlFor="username">사용자 이름:</Label>
-            <InputField
-              type="text"
-              name="id"
-              id="id"
-              value={id}
-              onChange={onChange}
-            />
-          </InputWrapper>
+          <form onSubmit={Loginfunc}>
+            <InputWrapper>
+              <Label htmlFor="username">사용자 이름:</Label>
+              <InputField
+                type="text"
+                name="id"
+                id="id"
+                value={id}
+                onChange={onChange}
+              />
+            </InputWrapper>
 
-          <InputWrapper>
-            <Label htmlFor="password">비밀번호:</Label>
-            <InputField
-              type="password"
-              id="pass"
-              name="pass"
-              value={pass}
-              onChange={onChange}
-            />
-          </InputWrapper>
-          <Button onClick={handleLogin}>로그인</Button>
-          <br />
-          <Button onClick={goRegister}>회원가입</Button>
+            <InputWrapper>
+              <Label htmlFor="password">비밀번호:</Label>
+              <InputField
+                type="password"
+                id="pass"
+                name="pass"
+                value={pass}
+                onChange={onChange}
+              />
+            </InputWrapper>
+            <Button onClick={handleLogin}>로그인</Button>
+            <br />
+            <Button onClick={goRegister}>회원가입</Button>
+          </form>
         </LoginPageWrapper>
       </Con>
     </>
