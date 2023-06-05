@@ -4,6 +4,7 @@ import { homelist } from "../components/Data";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Body = styled.div`
   display: flex;
@@ -118,12 +119,24 @@ const Con3 = styled.div`
 
 const Btn = styled.button``;
 const Homework = () => {
-  const [data, setData] = useState([]);
-  console.log(data);
   const { id } = useParams();
+  const [data, setData] = useState({});
+
   useEffect(() => {
-    setData(homelist[id - 1]);
-  }, []);
+    axios
+      .get(`/lecture/homework/${id}`)
+      .then((response) => {
+        const { id, title, content } = response.data;
+        setData({ id, title, content });
+      })
+      .catch((error) => {
+        console.error("Failed to fetch homework data:", error);
+      });
+  }, [id]);
+
+  // useEffect(() => {
+  //   setData(homelist[id - 1]);
+  // }, []);
   // useEffect(() => {
   //   setData(homelist);
   // }, []);
@@ -146,7 +159,8 @@ const Homework = () => {
           <Title>{data.title}</Title>
           <Pro>김익수, 2023.4.17</Pro>
           <Con1>
-            <img src={data.task} width="35vh" height="30vh" />
+            {/* <img src={data.task} width="35vh" height="30vh" /> */}
+            <p>{data.content}</p>
           </Con1>
           <Con2></Con2>
           <Con3>
