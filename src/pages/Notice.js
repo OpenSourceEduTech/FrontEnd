@@ -110,7 +110,7 @@ const Notice = () => {
 
   useEffect(() => {
     axios
-      .get("/lecture/1/homeworks")
+      .get("/lecture/1/notices")
       .then((response) => {
         setNoticeData(response.data);
       })

@@ -3,6 +3,9 @@ import Layout from "../components/Layout";
 import { homelist } from "../components/Data";
 import React, { useEffect, useState, useRef } from "react";
 import { Link, NavLink, useParams } from "react-router-dom";
+import axios from "axios";
+
+
 const NoticeContainer = styled.div`
   background-color: #fff;
   padding: 20px;
@@ -76,10 +79,16 @@ const StyledButton = styled.button`
 
 const Homeworks = (props) => {
   const [homeworks, setHomework] = useState([]);
-  const user = { id: 1, role: "Student" };
 
   useEffect(() => {
-    setHomework(homelist);
+    axios
+    .get("/lecture/1/homeworks")
+    .then((response) => {
+      setHomework(response.data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch notice data:", error);
+    });
   }, []);
 
   //const { id } = useParams();
@@ -87,7 +96,6 @@ const Homeworks = (props) => {
   const handleClick = () => {
     window.location.href = "/homework/post";
   };
-  const { id1, id2 } = useParams();
 
   return (
     <>
