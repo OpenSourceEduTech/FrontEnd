@@ -1,6 +1,9 @@
 import Layout from "../components/Layout";
 import React, { useState } from 'react';
 import styled from "styled-components";
+import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
+
 
 const NoticeContainer = styled.div`
   background-color: #fff;
@@ -68,8 +71,36 @@ const HomeworkPost = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 여기에서 폼 제출 처리를 합니다.
-    // title, description, number, file 값에 접근할 수 있습니다.
+    const formData = new FormData();
+    formData.append("file", file);
+
+    let jsonData = JSON.stringify({ title: title , content: description });
+
+    const homeworkDto = new Blob([jsonData], { type: "application/json" });
+
+
+
+    formData.append("homeworkDto", homeworkDto)
+    // formData.append("homeworkDto", new Blob(jsonData, { 'Content-Type': 'application/json' }));
+
+    for (let key of formData.keys()) {
+      console.log(key);
+    }
+    
+    // FormData의 value 확인
+    for (let value of formData.values()) {
+      console.log(value);
+    }
+   
+    axios.post('/lecture/1/homework', formData, {headers: { 'Content-Type': 'multipart/form-data' }})
+      .then(response => {
+        console.log('good')
+        // 성공적으로 전송된 경우 처리할 로직 작성
+      })
+      .catch(error => {
+        console.log('bad')
+        // 전송 중 에러가 발생한 경우 처리할 로직 작성
+      });
   };
 
   return (
