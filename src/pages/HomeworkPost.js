@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import axios from "axios";
 import { type } from "@testing-library/user-event/dist/type";
+import { Link, useNavigate } from "react-router-dom";
+
 
 
 const NoticeContainer = styled.div`
@@ -67,6 +69,8 @@ const HomeworkPost = () => {
   const [description, setDescription] = useState('');
   const [number, setNumber] = useState('');
   const [file, setFile] = useState(null);
+  const navigate = useNavigate(); 
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,6 +105,8 @@ const HomeworkPost = () => {
         console.log('bad')
         // 전송 중 에러가 발생한 경우 처리할 로직 작성
       });
+
+      navigate(`/homeworks`);
   };
 
   return (

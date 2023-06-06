@@ -126,8 +126,8 @@ const Homework = () => {
     axios
       .get(`/lecture/homework/${id}`)
       .then((response) => {
-        const { id, title, content } = response.data;
-        setData({ id, title, content });
+        const { id, title, content, filename, filePath } = response.data;
+        setData({ id, title, content, filename, filePath });
       })
       .catch((error) => {
         console.error("Failed to fetch homework data:", error);
@@ -140,6 +140,26 @@ const Homework = () => {
   // useEffect(() => {
   //   setData(homelist);
   // }, []);
+  const handleDownload = () => {
+    console.log(data.filePath)
+    axios({
+      url: `/lecture/homework/${id}/download`,
+      method: 'GET',
+      responseType: 'blob',
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', data.filePath.split('/').pop());
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((error) => {
+        console.error('Failed to download file:', error);
+      });
+  };
 
   const fileInput = React.useRef(null);
   const handleButtonClick = (e) => {
@@ -159,10 +179,14 @@ const Homework = () => {
           <Title>{data.title}</Title>
           <Pro>김익수, 2023.4.17</Pro>
           <Con1>
-            {/* <img src={data.task} width="35vh" height="30vh" /> */}
-            <p>{data.content}</p>
+            <a href="#" onClick={handleDownload}>
+              {data.filename}
+            </a>
           </Con1>
-          <Con2></Con2>
+            <p>{data.content}</p>
+          <Con2>
+            
+          </Con2>
           <Con3>
             <Btn onClick={goQuestion}>질문하러 가기</Btn>
           </Con3>
