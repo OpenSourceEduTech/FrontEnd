@@ -1,98 +1,200 @@
-import React, { useEffect } from 'react';
-import * as d3 from 'd3';
+import React, { useState } from "react";
+import { Stage, Layer, Circle, Text } from "react-konva";
+import Modal from './Modal';
 
 const MindMap = () => {
-  const data = {
-    nodes: [
-      { id: '주제', group: 0 },
-      { id: '질문1', group: 1 },
-      { id: '질문2', group: 1 },
-      { id: '질문3', group: 1 },
-      // 추가 노드...
-    ],
-    links: [
-      { source: '주제', target: '질문1' },
-      { source: '주제', target: '질문2' },
-      { source: '주제', target: '질문3' },
-      // 추가 링크...
-    ],
+  const [topic, setTopic] = useState("주제");
+  const [questions, setQuestions] = useState([]);
+  const [newQuestion, setNewQuestion] = useState({ title: '', content: '' });
+  const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState({ title: '', content: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [answers, setAnswers] = useState([]);
+  const [newAnswer, setNewAnswer] = useState({ title: '', content: '' });
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState({ title: '', content: '' });
+
+  const nodeRadius = 50;
+  const nodeColor = "rgba(255, 0, 0, 0.7)";
+  const answerNodeColor = "rgba(0, 255, 0, 0.7)";
+  const topicNodeColor = "skyblue";
+  const distanceFactor = 1.2;
+
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  const addNode = (e) => {
+    e.preventDefault();
+    let level = Math.floor(questions.length / 4) + 1;
+    let levelCount = questions.filter((q) => q.level === level).length;
+    if (levelCount >= 4 * level) {
+      level += 1;
+    }
+    setQuestions([...questions, { ...newQuestion, level }]);
+    setNewQuestion({ title: '', content: '' });
   };
 
-  useEffect(() => {
-    const svg = d3.select('svg');
-    const width = +svg.attr('width');
-    const height = +svg.attr('height');
+  const selectNode = (index) => {
+    setSelectedNodeIndex(index);
+    setSelectedQuestion(questions[index]);
+    setIsModalOpen(true);
+  };
 
-    const simulation = d3
-      .forceSimulation()
-      .force('link', d3.forceLink().id((d) => d.id))
-      .force('charge', d3.forceManyBody())
-      .force('center', d3.forceCenter(width / 2, height / 2));
+  const updateNode = (e) => {
+    e.preventDefault();
+    const updatedQuestions = [...questions];
+    updatedQuestions[selectedNodeIndex] = selectedQuestion;
+    setQuestions(updatedQuestions);
+    setSelectedNodeIndex(null);
+    setSelectedQuestion({ title: '', content: '' });
+  };
 
-    const link = svg
-      .append('g')
-      .attr('stroke', '#999')
-      .attr('stroke-opacity', 0.6)
-      .selectAll('line')
-      .data(data.links)
-      .join('line')
-      .attr('stroke-width', (d) => Math.sqrt(d.value));
+  const deleteNode = () => {
+    const updatedQuestions = [...questions];
+    updatedQuestions.splice(selectedNodeIndex, 1);
+    setQuestions(updatedQuestions);
+    setSelectedNodeIndex(null);
+    setSelectedQuestion({ title: '', content: '' });
+  };
 
-    const node = svg
-      .append('g')
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1.5)
-      .selectAll('circle')
-      .data(data.nodes)
-      .join('circle')
-      .attr('r', 20)
-      .attr('fill', (d) => (d.group === 0 ? 'blue' : 'red'))
-      .call(d3.drag()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended));
-
-    node.append('title').text((d) => d.id);
-
-    simulation.nodes(data.nodes).on('tick', ticked);
-
-    simulation.force('link').links(data.links);
-
-    function ticked() {
-      link
-        .attr('x1', (d) => d.source.x)
-        .attr('y1', (d) => d.source.y)
-        .attr('x2', (d) => d.target.x)
-        .attr('y2', (d) => d.target.y);
-
-      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
+  const addAnswer = (e) => {
+    e.preventDefault();
+    if (selectedNodeIndex !== null && questions[selectedNodeIndex]) {
+      const newAnswerNode = { ...newAnswer, questionIndex: selectedNodeIndex };
+      setAnswers([...answers, newAnswerNode]);
+      setNewAnswer({ title: '', content: '' });
     }
+  };
 
-    function dragstarted(event, d) {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
-    }
+  const selectAnswerNode = (index) => {
+    setSelectedAnswerIndex(index);
+    setSelectedAnswer(answers[index]);
+    setIsModalOpen(true);
+  };
 
-    function dragged(event, d) {
-      d.fx = event.x;
-      d.fy = event.y;
-    }
+  const updateAnswerNode = (e) => {
+    e.preventDefault();
+    const updatedAnswers = [...answers];
+    updatedAnswers[selectedAnswerIndex] = selectedAnswer;
+    setAnswers(updatedAnswers);
+    setSelectedAnswerIndex(null);
+    setSelectedAnswer({ title: '', content: '' });
+  };
 
-    function dragended(event, d) {
-      if (!event.active) simulation.alphaTarget(0);
-      d.fx = null;
-      d.fy = null;
-    }
+  const calculateCoordinates = (question, i, arr) => {
+    const levelQuestions = arr.filter((q) => q.level === question.level);
+    const levelIndex = levelQuestions.findIndex((q) => q.title === question.title);
+    const angle = (levelIndex / levelQuestions.length) * Math.PI * 2;
+    const baseRadius = Math.min(centerX, centerY) / 3 * distanceFactor;
+    const radius = baseRadius * question.level;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
 
-    const zoom = d3.zoom().on('zoom', (event) => {
-      svg.attr('transform', event.transform);
+    return { x, y };
+  };
+
+  const renderNodes = () => {
+    return questions.map((question, i, arr) => {
+      const { x, y } = calculateCoordinates(question, i, arr);
+
+      return (
+        <React.Fragment key={i}>
+          <Circle
+            x={x}
+            y={y}
+            radius={nodeRadius}
+            fill={nodeColor}
+            draggable
+            onClick={() => selectNode(i)}
+          />
+          <Text
+            text={question.title}
+            x={x - nodeRadius / 2}
+            y={y - nodeRadius / 2}
+            align="center"
+            verticalAlign="middle"
+            width={nodeRadius}
+            fontSize={16}
+          />
+        </React.Fragment>
+      );
     });
+  };
 
-    svg.call(zoom);
-  }, []);
+  const renderAnswerNodes = () => {
+    return answers.map((answer, i) => {
+      const question = questions[answer.questionIndex];
+      const { x, y } = calculateCoordinates(question, i, questions);
 
-  return <svg width="800" height="600"></svg>;
+      return (
+        <React.Fragment key={i}>
+          <Circle
+            x={x}
+            y={y}
+            radius={nodeRadius}
+            fill={answerNodeColor}
+            draggable
+            onClick={() => selectAnswerNode(i)}
+          />
+          <Text
+            text={answer.title}
+            x={x - nodeRadius / 2}
+            y={y - nodeRadius / 2}
+            align="center"
+            verticalAlign="middle"
+            width={nodeRadius}
+            fontSize={16}
+          />
+        </React.Fragment>
+      );
+    });
+  };
+
+  return (
+    <div>
+      <h1>{topic}</h1>
+      <form onSubmit={addNode}>
+        {/* 생략 */}
+      </form>
+      {selectedNodeIndex !== null && (
+        <div>
+          {/* 생략 */}
+          <form onSubmit={addAnswer}>
+            <label>
+              답변 제목:
+              <input
+                type="text"
+                value={newAnswer.title}
+                onChange={(e) => setNewAnswer({ ...newAnswer, title: e.target.value })}
+                required
+              />
+            </label>
+            <label>
+              답변 내용:
+              <input
+                type="text"
+                value={newAnswer.content}
+                onChange={(e) => setNewAnswer({ ...newAnswer, content: e.target.value })}
+                required
+              />
+            </label>
+            <button type="submit">답변 추가하기</button>
+          </form>
+        </div>
+      )}
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        {/* 생략 */}
+        {renderNodes()}
+        {renderAnswerNodes()}
+      </Stage>
+      {isModalOpen && (
+        <Modal>
+          {/* 생략 */}
+        </Modal>
+      )}
+    </div>
+  );
 };
 
 export default MindMap;
