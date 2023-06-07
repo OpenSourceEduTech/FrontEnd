@@ -13,10 +13,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import HomeworkPost from "./pages/HomeworkPost";
 import NoticePost from "./pages/NoticePost";
-import MindmapTest from "./pages/MindmapTest";
 import Mindmap from "./pages/Mindmap";
-
-const App  = ()  =>  {
+const App = () => {
   const [role, setRole] = useState("");
 
   const handleLogin = (userRole) => {
@@ -73,7 +71,7 @@ const App  = ()  =>  {
         <Route path="/homework/post" element={<HomeworkPost />} />
         <Route path="/notice/post" element={<NoticePost />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/mindmap" element={<Mindmap />} />
+        <Route path="/mind" element={<Mindmap />} />
       </Routes>
     </Router>
 
