@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import HomeworkPost from "./pages/HomeworkPost";
 import NoticePost from "./pages/NoticePost";
-
+import Mindmap from "./pages/Mindmap";
 const App = () => {
   const [role, setRole] = useState("");
 
@@ -70,6 +70,7 @@ const App = () => {
         <Route path="/homework/post" element={<HomeworkPost />} />
         <Route path="/notice/post" element={<NoticePost />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mind" element={<Mindmap />} />
       </Routes>
     </Router>
   );
