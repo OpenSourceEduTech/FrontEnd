@@ -1,65 +1,49 @@
+import React, { useEffect, useState, useRef } from "react";
+import Layout from "../components/Layout";
 import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
-import { useLayoutEffect } from "react";
 import * as am5hierarchy from "@amcharts/amcharts5/hierarchy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import styled from "styled-components";
-import { useEffect } from "react";
 
 function MindMap() {
-  useLayoutEffect(() => {
-    var root = am5.Root.new("chartdiv");
+  const [data, setData] = useState({
+    value: 0,
+    name: "Root",
+    children: [
+    ],
+  });
+  const [taskName, setTaskName] = useState("");
+  const rootRef = useRef(null);
+  const seriesRef = useRef(null);
+  let rootCount = 0;
 
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([am5themes_Animated.new(root)]);
+  const handleInputChange = (e) => {
+    setTaskName(e.target.value);
+  };
 
-    var data = {
-      value: 0,
-      children: [
-        {
-          name: "과제 1",
-          children: [
-            {
-              name: "소과제",
-              children: [
-                {
-                  name: "질문 1",
-                  value: 1,
-                },
-                {
-                  name: "질문 2",
-                  value: 1,
-                },
-                {
-                  name: "Jasmine",
-                  value: 1,
-                },
-              ],
-            },
-            {
-              name: "소과제2",
-              children: [
-                {
-                  name: "질문 1",
-                  value: 1,
-                },
-                {
-                  name: "질문 2",
-                  value: 1,
-                },
-                {
-                  name: "Jasmine",
-                  value: 1,
-                },
-              ],
-            },
-          ],
-        },
-      ],
+  const handleAddTask = () => {
+    const newTask = {
+      name: taskName,
+      children: [],
     };
 
-    var container = root.container.children.push(
+    const series = seriesRef.current;
+    // const rootData = series.dataItems[0].dataContext;
+    // rootData.children.push(newTask);
+
+    // console.log(data)
+    generateLevel(data,newTask, 1);
+
+    series.data.setAll([data]);
+    // series.invalidateData();
+    series.appear(1000, 100);
+  };
+
+  useEffect(() => {
+    
+    const root = am5.Root.new(rootRef.current);
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    const container = root.container.children.push(
       am5.Container.new(root, {
         width: am5.percent(100),
         height: am5.percent(100),
@@ -67,9 +51,7 @@ function MindMap() {
       })
     );
 
-    // Create series
-    // https://www.amcharts.com/docs/v5/charts/hierarchy/#Adding
-    var series = container.children.push(
+    const series = container.children.push(
       am5hierarchy.ForceDirected.new(root, {
         singleBranchOnly: false,
         downDepth: 2,
@@ -84,24 +66,68 @@ function MindMap() {
         centerStrength: 0.8,
       })
     );
-
-    series.get("colors").setAll({
-      step: 2,
-    });
-
+    series.get("colors").setAll({ step: 2 });
     series.links.template.set("strength", 0.5);
+
+    const init = {
+      name: "과제1",
+      children: [],
+    };
+
+    generateLevel(data,init, 0);
 
     series.data.setAll([data]);
 
-    series.set("selectedDataItem", series.dataItems[0]);
-
-    // Make stuff animate on load
     series.appear(1000, 100);
+    
+
+    seriesRef.current = series;
+
     return () => {
       root.dispose();
     };
   }, []);
 
-  return <div id="chartdiv" style={{ width: "1200px", height: "800px" }}></div>;
+  function generateLevel(data, newTask, level) {
+  
+    const maxLevels = 2;
+    const maxNodes = 5;
+    const maxValue = 100;
+
+    // console.log(data.children[0])
+    // console.log(newTask)
+
+    if(level === 0 && rootCount < 1) {
+      rootCount++
+      data.children.push(newTask)
+      // console.log(data)
+    }
+    else if (level === 0) {
+      ;
+    }
+    else { 
+      // console.log(data.children[0])
+      data.children[0].children.push(newTask)
+      // console.log(data.children[0].children)
+    }
+    
+  }
+
+  return (
+    // <>
+    // <Layout>
+    <div>
+      <input type="text" value={taskName} onChange={handleInputChange} />
+      <button onClick={handleAddTask}>과제 추가</button>
+      <div
+        ref={rootRef}
+        id="chartdiv"
+        style={{ width: "1280px", height: "900px" }}
+      ></div>
+    </div>
+    // </Layout>
+    // </>
+  );
 }
+
 export default MindMap;
