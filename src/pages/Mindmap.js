@@ -3,13 +3,64 @@ import Layout from "../components/Layout";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5hierarchy from "@amcharts/amcharts5/hierarchy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import styled from "styled-components";
 
+const Con = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  right: 0;
+`;
+
+const Button = styled.button`
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+
+const Input = styled.input`
+  height: 50px;
+  width: 50%;
+	border: 1px solid gray;
+	border-radius: 5px;
+
+	outline: none;
+
+	font-family: 'Noto Sans KR';
+
+	font-size: 20px;
+	color: #363636;
+
+	&::placeholder{
+		color: #black;
+	}
+
+	&:hover{
+		border: 1px solid black;
+	}
+
+	&:focus{
+		color: #363636;
+		border: 1px solid blue};
+	}
+`;
 function MindMap() {
   const [data, setData] = useState({
     value: 0,
     name: "Root",
-    children: [
-    ],
+    children: [],
   });
   const [taskName, setTaskName] = useState("");
   const rootRef = useRef(null);
@@ -31,7 +82,7 @@ function MindMap() {
     // rootData.children.push(newTask);
 
     // console.log(data)
-    generateLevel(data,newTask, 1);
+    generateLevel(data, newTask, 1);
 
     series.data.setAll([data]);
     // series.invalidateData();
@@ -39,7 +90,6 @@ function MindMap() {
   };
 
   useEffect(() => {
-    
     const root = am5.Root.new(rootRef.current);
     root.setThemes([am5themes_Animated.new(root)]);
 
@@ -74,12 +124,11 @@ function MindMap() {
       children: [],
     };
 
-    generateLevel(data,init, 0);
+    generateLevel(data, init, 0);
 
     series.data.setAll([data]);
 
     series.appear(1000, 100);
-    
 
     seriesRef.current = series;
 
@@ -89,7 +138,6 @@ function MindMap() {
   }, []);
 
   function generateLevel(data, newTask, level) {
-  
     const maxLevels = 2;
     const maxNodes = 5;
     const maxValue = 100;
@@ -97,36 +145,37 @@ function MindMap() {
     // console.log(data.children[0])
     // console.log(newTask)
 
-    if(level === 0 && rootCount < 1) {
-      rootCount++
-      data.children.push(newTask)
+    if (level === 0 && rootCount < 1) {
+      rootCount++;
+      data.children.push(newTask);
       // console.log(data)
-    }
-    else if (level === 0) {
-      ;
-    }
-    else { 
+    } else if (level === 0) {
+    } else {
       // console.log(data.children[0])
-      data.children[0].children.push(newTask)
+      data.children[0].children.push(newTask);
       // console.log(data.children[0].children)
     }
-    
   }
 
   return (
-    // <>
-    // <Layout>
-    <div>
-      <input type="text" value={taskName} onChange={handleInputChange} />
-      <button onClick={handleAddTask}>과제 추가</button>
-      <div
-        ref={rootRef}
-        id="chartdiv"
-        style={{ width: "1280px", height: "900px" }}
-      ></div>
-    </div>
-    // </Layout>
-    // </>
+    <>
+      <Layout />
+      <Con>
+        <Input
+          type="text"
+          value={taskName}
+          onChange={handleInputChange}
+          placeholder="질문을 입력하세요!"
+        ></Input>
+        <br />
+        <Button onClick={handleAddTask}>질문 추가</Button>
+        <div
+          ref={rootRef}
+          id="chartdiv"
+          style={{ width: "1280px", height: "600px" }}
+        ></div>
+      </Con>
+    </>
   );
 }
 
