@@ -167,7 +167,7 @@ const Homework = () => {
   };
   const navigate = useNavigate();
   const goQuestion = () => {
-    navigate(`/question`);
+    navigate(`/mind`);
   };
   
 
