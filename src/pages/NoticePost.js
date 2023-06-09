@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const NoticeContainer = styled.div`
   background-color: #fff;
@@ -63,15 +64,23 @@ const SubmitButton = styled.button`
 const NoticePost = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [number, setNumber] = useState('');
-  const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate("/notice")
-    // 여기에서 폼 제출 처리를 합니다.
-    // title, description, number, file 값에 접근할 수 있습니다.
+    axios
+      .post("lecture/1/notice", { title: title, content: description })
+      .then((response) => {
+        // 성공적으로 요청이 완료되면 실행되는 코드
+        console.log("요청 성공:", response.data);
+        navigate("/notice");
+      })
+      .catch((error) => {
+        // 요청이 실패하면 실행되는 코드
+        console.error("요청 실패:", error);
+      });
+
   };
 
   return (
@@ -86,10 +95,6 @@ const NoticePost = () => {
       <FormGroup>
         <Label htmlFor="description">공지 내용</Label>
         <TextArea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="file">첨부 파일</Label>
-        <Input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
       </FormGroup>
       <SubmitButton type="submit">등록</SubmitButton>
     </FormContainer>
