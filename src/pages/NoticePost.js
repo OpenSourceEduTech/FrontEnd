@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const NoticeContainer = styled.div`
@@ -64,10 +65,11 @@ const NoticePost = () => {
   const [description, setDescription] = useState('');
   const [number, setNumber] = useState('');
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    navigate("/notice")
     // 여기에서 폼 제출 처리를 합니다.
     // title, description, number, file 값에 접근할 수 있습니다.
   };
