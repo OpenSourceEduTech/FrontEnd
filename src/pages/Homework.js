@@ -98,6 +98,7 @@ const Pro = styled.div`
 `;
 const Con1 = styled.div`
   hegith: 40%;
+  align-text:left;
   width: 80%;
   border: 0px 0px 3px 0px;
   box-shadow: 1px 1px 1px 1px #000000;
@@ -183,9 +184,9 @@ const Homework = () => {
               {data.filename}
             </a>
           </Con1>
-            <p>{data.content}</p>
           <Con2>
-            
+          <p style={{ textAlign: 'left', justifyContent: 'left' }}>{data.content}</p>
+
           </Con2>
           <Con3>
             <Btn onClick={goQuestion}>질문 마인드맵</Btn>
