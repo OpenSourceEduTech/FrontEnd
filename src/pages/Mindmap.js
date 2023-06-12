@@ -33,29 +33,30 @@ const Button = styled.button`
 const Input = styled.input`
   height: 50px;
   width: 50%;
-	border: 1px solid gray;
-	border-radius: 5px;
+  border: 1px solid gray;
+  border-radius: 5px;
 
-	outline: none;
+  outline: none;
 
-	font-family: 'Noto Sans KR';
+  font-family: 'Noto Sans KR';
 
-	font-size: 20px;
-	color: #363636;
+  font-size: 20px;
+  color: #363636;
 
-	&::placeholder{
-		color: #black;
-	}
+  &::placeholder{
+    color: #black;
+  }
 
-	&:hover{
-		border: 1px solid black;
-	}
+  &:hover{
+    border: 1px solid black;
+  }
 
-	&:focus{
-		color: #363636;
-		border: 1px solid blue};
-	}
+  &:focus{
+    color: #363636;
+    border: 1px solid blue};
+  }
 `;
+
 function MindMap() {
   const [data, setData] = useState({
     value: 0,
@@ -63,6 +64,8 @@ function MindMap() {
     children: [],
   });
   const [taskName, setTaskName] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [selectedNode, setSelectedNode] = useState(null);
   const rootRef = useRef(null);
   const seriesRef = useRef(null);
   let rootCount = 0;
@@ -71,22 +74,39 @@ function MindMap() {
     setTaskName(e.target.value);
   };
 
+  const handleAnswerChange = (e) => {
+    setAnswer(e.target.value);
+  };
+
   const handleAddTask = () => {
     const newTask = {
       name: taskName,
       children: [],
     };
 
-    const series = seriesRef.current;
-    // const rootData = series.dataItems[0].dataContext;
-    // rootData.children.push(newTask);
-
-    // console.log(data)
     generateLevel(data, newTask, 1);
 
-    series.data.setAll([data]);
-    // series.invalidateData();
-    series.appear(1000, 100);
+    seriesRef.current.data.setAll([data]);
+    seriesRef.current.appear(1000, 100);
+
+    setSelectedNode(newTask);
+  };
+
+  const handleAddAnswer = () => {
+    if (selectedNode === null) {
+      alert("먼저 질문 노드를 선택해주세요!");
+      return;
+    }
+
+    const newAnswer = {
+      name: answer,
+      value: 1,
+    };
+
+    selectedNode.children.push(newAnswer);
+
+    seriesRef.current.data.setAll([data]);
+    seriesRef.current.appear(1000, 100);
   };
 
   useEffect(() => {
@@ -119,6 +139,10 @@ function MindMap() {
     series.get("colors").setAll({ step: 2 });
     series.links.template.set("strength", 0.5);
 
+    series.nodes.template.events.on("hit", function (event) {
+      setSelectedNode(event.target.dataItem.dataContext);
+    });
+
     const init = {
       name: "과제1",
       children: [],
@@ -142,18 +166,12 @@ function MindMap() {
     const maxNodes = 5;
     const maxValue = 100;
 
-    // console.log(data.children[0])
-    // console.log(newTask)
-
     if (level === 0 && rootCount < 1) {
       rootCount++;
       data.children.push(newTask);
-      // console.log(data)
     } else if (level === 0) {
     } else {
-      // console.log(data.children[0])
       data.children[0].children.push(newTask);
-      // console.log(data.children[0].children)
     }
   }
 
@@ -169,6 +187,15 @@ function MindMap() {
         ></Input>
         <br />
         <Button onClick={handleAddTask}>질문 추가</Button>
+        <br />
+        <Input
+          type="text"
+          value={answer}
+          onChange={handleAnswerChange}
+          placeholder="답변을 입력하세요!"
+        ></Input>
+        <br />
+        <Button onClick={handleAddAnswer}>답변 추가</Button>
         <div
           ref={rootRef}
           id="chartdiv"

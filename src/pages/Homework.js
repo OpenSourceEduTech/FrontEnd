@@ -188,7 +188,7 @@ const Homework = () => {
             
           </Con2>
           <Con3>
-            <Btn onClick={goQuestion}>질문하러 가기</Btn>
+            <Btn onClick={goQuestion}>질문 마인드맵</Btn>
           </Con3>
         </LeftCon>
 
